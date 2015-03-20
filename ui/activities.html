@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Activites</title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="js/activities.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	        </button>
+	        <a class="navbar-brand" href="index.html">Clear CRM</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse navbar-ex1-collapse">
+	        <ul class="nav navbar-nav">
+	            <li><a href="accounts.html">Accounts</a></li>
+	            <li><a href="contacts.html">Contacts</a></li>
+	            <li class='active'><a href="activities.html">Activities</a></li>
+	            <li><a href="opportunities.html">Opportunities</a></li>
+	            <li><a href="#">Products</a></li>
+	        </ul>
+	        <ul class="nav navbar-nav navbar-right">
+	            <li class="dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="#">Action</a></li>
+	                    <li><a href="#">Another action</a></li>
+	                    <li><a href="#">Something else here</a></li>
+	                    <li><a href="#">Separated link</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </div><!-- /.navbar-collapse -->
+	</nav>
+	<div class="pull-left" style="width:20%; margin-left:1%">
+		<div class="panel panel-info">
+			  <div class="panel-heading">
+					<h3 class="panel-title">Activities</h3>
+			  </div>
+			  <div class="panel-body list-group">
+				  <a href="#" class="list-group-item active" id="callsToggle">Calls</a>
+				  <a href="#" class="list-group-item" id="casesToggle">Cases</a>
+				  <a href="#" class="list-group-item" id="meetingsToggle">Meetings</a>
+				  <a href="#" class="list-group-item" id="notesToggle">Notes</a>
+			  </div>
+		</div>		
+	</div>
+	<div class="pull-right" style="width:77%; margin-right:1%">
+		<div class="panel panel-success">
+			  <div class="panel-heading">
+					<h3 class="panel-title" id="contentTitle">Calls</h3>
+			  </div>
+			  <div class="panel-body" id="calls">
+			  	<a class="btn btn-default" data-toggle="modal" href='#newCall'>Log Call</a>
+			  	<hr/>
+			  	<table class="table table-condensed table-hover">
+			  		<thead>
+			  			<tr>
+			  				<th style="width:10%">ID</th>
+			  				<th style="width:10%">Direction</th>
+			  				<th style="width:10%">Date</th>
+			  				<th style="width:10%">Duration</th>
+			  				<th style="width:60%">Blog</th>
+			  			</tr>
+			  		</thead>
+			  		<tbody id="callsTable">
+			  		</tbody>
+			  	</table>
+			  </div>
+			  <div class="panel-body hide" id="meetings">
+			  	Meetings
+			  </div>
+			  <div class="panel-body hide" id="cases">
+			  	Cases
+			  </div>
+			  <div class="panel-body hide" id="notes">
+			  	Notes
+			  </div>
+		</div>
+	</div>
+	<!-- New Call -->
+	<div class="modal fade" id="newCall">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">New Call</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" method="POST" class="form-horizontal" role="form" id="newCallForm">
+						<div class="form-group">
+							<label for="callTime" class="col-sm-3 control-label">Date</label>
+							<div class="col-sm-8">
+								<input type="text" id="callTime" class="form-control" placeholder="m/d/yyyy"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="direction" class="control-label col-sm-3">Direction</label>
+							<div class="col-sm-8">
+								<select name="direction" id="direction" class="form-control">
+									<option value="out">Outbound</option>
+									<option value="in">Inbound</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="blog" class="col-sm-3 control-label">Blog</label>
+							<div class="col-sm-8">
+								<textarea name="blog" id="blog" cols="30" rows="10" class="form-control" placeholder="Call Summary"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="duration" class="col-sm-3 control-label">Duration</label>
+							<div class="col-sm-2">
+								<input type="text" id="durationHours" class="form-control" placeholder="Hours"/>
+							</div>
+							<div class="col-sm-2">
+								<input type="text" id="durationMinutes" class="form-control" placeholder="Minutes"/>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" id="btnSaveCall" class="btn btn-info">Save</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</body>
+</html>
