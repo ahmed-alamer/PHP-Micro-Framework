@@ -1,5 +1,11 @@
 var lastContent = "#calls";
 
+var backEndUrlBase = "http://localhost/index.php/";
+
+var accountId = null;
+
+var contactId = null;
+
 function switchContext(content, title) {
 	$(lastContent +"Toggle").removeClass("active");
 	$(lastContent).addClass("hide");
@@ -18,7 +24,7 @@ TODO:
 
 function logCall () {
 	$.ajax({
-		url: "http://localhost/index.php/calls",
+		url: backEndUrlBase + "calls",
 		type: "POST",
 		data: {
 			"callTime": $("#callTime").val(),
@@ -52,14 +58,19 @@ function translateDirection(direction) {
 }
 
 function getAllCalls () {
+	if(contactId == null) {
+		return;
+	}
 	$.ajax({
-		url: "http://localhost/index.php/calls",
+		url: backEndUrlBase + "calls" + "/?contactId=" + contactId,
 		type: "GET",
 		success: function(calls) {
+			$("#callsTable").empty();
 			calls.forEach(function(call) {
 				$("#callsTable").append(
 					"<tr>" +
 					"<td>" + call.id+ "</td>" +
+					"<td>" + call.employeeName + "</td>" +
 					"<td>" + translateDirection(call.direction) + "</td>" +
 					"<td>" + call.callTime.split("T")[0] + "</td>" +
 					"<td>" + call.durationHours + ":" + call.durationMinutes + "</td>" +
@@ -74,9 +85,97 @@ function getAllCalls () {
 	});
 }
 
+function getMeetings () {
+	$.ajax({
+		url: backEndUrlBase + "meeting/?contactId=" + contactId,
+		type: "GET",
+		success: function(meetings) {
+			$("#meetingsTable").empty();
+			meetings.forEach(function(meeting) {
+				$("#meetingsTable").append(
+					"<tr>" +
+					"<td>" + meeting.id + "</td>" +
+					"<td>" + meeting.location + "</td>" +
+					"<td>" + meeting.durationHours + ":" + meeting.durationMinutes + "</td>" +
+					"<td>" + meeting.status + "</td>" +
+					"<td>" + meeting.meetingType + "</td>" +
+					"<td>" + meeting.employeeName + "</td>" +
+					"<td>" + meeting.description + "</td>" +
+					"</tr>"
+				);
+			});
+		}
+	});
+}
+
+function getNotes () {
+	$.ajax({
+		url: backEndUrlBase + "note/?contactId=" + contactId,
+		type: "GET",
+		success: function(notes) {
+			$("#notesTable").empty();
+			notes.forEach(function(note) {
+				console.log(note);
+				$("#notesTable").append(
+					"<tr>" +
+					"<td>" + note.id + "</td>" +
+					"<td>" + note.title + "</td>" +
+					"<td>" + note.employeeName + "</td>" +
+					"<td>" + note.dateCreated + "</td>" +
+					"</tr>"
+				);
+			});
+		}
+	});
+}
+
+function getAccounts () {
+	$.ajax({
+		url: backEndUrlBase + "account",
+		type: "GET",
+		success: function(accounts) {
+			accounts.forEach(function(account) {
+				$("#accountSelector").append(
+					"<option value='"+account.id+"'>"+account.companyName+"</option>"
+				);				
+			});
+		}
+	});
+}
+
+function getContacts (accountId) {
+	$.ajax({
+		url: backEndUrlBase + "contact/?accountId=" + accountId,
+		type: "GET",
+		success: function(contacts) {
+			contacts.forEach(function(contact) {
+				$("#contactSelector").append(
+					"<option value='"+contact.id+"'>"+contact.firstName + " " + contact.lastName+"</option>"
+				);
+			});
+		}
+	});
+}
+function updateUI(lastContext) {
+	switch(lastContext) {
+		case "#calls":
+			getAllCalls();
+			break;
+		case "#meetings":
+			getMeetings();
+			break;
+		case "#notes":
+			getNotes();
+			break;
+		case "#cases":
+			break;
+	}
+}
+
 $(document).ready(function() {
 	$("#meetingsToggle").click(function() {
 		switchContext("#meetings", "Meetings");
+		getMeetings();
 	});
 	$("#callsToggle").click(function() {
 		switchContext("#calls", "Calls");
@@ -86,11 +185,23 @@ $(document).ready(function() {
 	});
 	$("#notesToggle").click(function() {
 		switchContext("#notes", "Notes");
+		getNotes();
 	});
 	$("#btnSaveCall").click(function() {
 		logCall();
 	});
 
-	getAllCalls();
+	$("#accountSelector").change(function() {
+		accountId = $(this).val();
+		$("#contactSelector").empty().append("<option value='empty'>Select Contact...</option>");
+		getContacts($(this).val());
+	});
+
+	$("#contactSelector").change(function() {
+		contactId = $(this).val();
+		updateUI(lastContent);
+	});
+
+	getAccounts();
 });
 

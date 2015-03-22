@@ -16,7 +16,9 @@ class AccountController
 	public function GET($parameters) {
 		if(count($parameters) == 0) {
 			echo json_encode($this->databaseContext->getEntities("account"));
-		} else {
+		} 
+
+		if(array_key_exists("id", $parameters)) {
 			echo json_encode($this->databaseContext->getEntity("account", $parameters["id"]));
 		}
 	}

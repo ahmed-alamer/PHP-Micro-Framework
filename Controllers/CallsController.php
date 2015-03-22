@@ -15,8 +15,13 @@ class CallsController {
 	{
 		if(count($parameters) == 0) {
 			echo json_encode($this->databaseContext->getEntities("calls"));
-		} else {
+		} 
+		if (array_key_exists("id", $parameters)) {
 			echo json_encode($this->databaseContext->getEntity("calls", $parameters["id"]));
+		}
+
+		if (array_key_exists("contactId", $parameters)) {
+			echo json_encode($this->databaseContext->getObjectList("select calls.id, calls.callTime, calls.blog, calls.direction, calls.durationHours, calls.durationMinutes, concat(employee.firstName, ' ', employee.lastName) as employeeName from calls join contact_call on calls.id = contact_call.call_id join employee on employee.id = contact_call.employee_id where contact_id =" . $parameters["contactId"]));
 		}
 	}
 

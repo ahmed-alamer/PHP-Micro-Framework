@@ -48,7 +48,7 @@
 	        </ul>
 	    </div><!-- /.navbar-collapse -->
 	</nav>
-	<div class="pull-left" style="width:20%; margin-left:1%">
+	<div class="pull-left" style="width:15%; margin-left:1%">
 		<div class="panel panel-info">
 			  <div class="panel-heading">
 					<h3 class="panel-title">Activities</h3>
@@ -61,22 +61,47 @@
 			  </div>
 		</div>		
 	</div>
-	<div class="pull-right" style="width:77%; margin-right:1%">
+	<div class="pull-right" style="width:82%; margin-right:1%">
+		<div class="panel panel-success">
+			<div class="panel-body">
+				<form action="" method="GET" role="form" class="form-horizontal">
+					<legend>Account &amp; Contact</legend>
+				
+					<div class="form-group">
+						<label for="accountSelector" class="control-label col-sm-2">Account</label>
+						<div class="col-sm-9">
+							<select name="accountSelector" id="accountSelector" class="form-control">
+								<option value="empty">Select Account...</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="contactSelector" class="control-label col-sm-2">Contact</label>
+						<div class="col-sm-9">
+							<select name="contactSelector" id="contactSelector" class="form-control">
+								<option value="empty">Select Contact...</option>
+							</select>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 		<div class="panel panel-success">
 			  <div class="panel-heading">
 					<h3 class="panel-title" id="contentTitle">Calls</h3>
 			  </div>
 			  <div class="panel-body" id="calls">
-			  	<a class="btn btn-default" data-toggle="modal" href='#newCall'>Log Call</a>
-			  	<hr/>
+			  	<a class="btn btn-default pull-right" data-toggle="modal" href='#newCall'>Log Call</a>
+			  	<br/>
 			  	<table class="table table-condensed table-hover">
 			  		<thead>
 			  			<tr>
 			  				<th style="width:10%">ID</th>
+			  				<th style="width:10%">Employee</th>
 			  				<th style="width:10%">Direction</th>
 			  				<th style="width:10%">Date</th>
 			  				<th style="width:10%">Duration</th>
-			  				<th style="width:60%">Blog</th>
+			  				<th style="width:50%">Blog</th>
 			  			</tr>
 			  		</thead>
 			  		<tbody id="callsTable">
@@ -84,13 +109,43 @@
 			  	</table>
 			  </div>
 			  <div class="panel-body hide" id="meetings">
-			  	Meetings
+			  	<a class="btn btn-default pull-right" data-toggle="modal" href='#newMeeting'>New Meeting</a>
+			  	<br/>
+			  	<table class="table table-condensed table-hover">
+			  		<thead>
+			  			<tr>
+			  				<th>ID</th>
+			  				<th>Location</th>
+			  				<th>Duration</th>
+			  				<th>Status</th>
+			  				<th>Type</th>
+			  				<th>Employee</td>
+			  				<th>Description</th>
+			  			</tr>
+			  		</thead>
+			  		<tbody id="meetingsTable">
+			  		</tbody>
+			  	</table>
 			  </div>
 			  <div class="panel-body hide" id="cases">
 			  	Cases
 			  </div>
 			  <div class="panel-body hide" id="notes">
-			  	Notes
+			  	<button type="button" class="btn btn-default pull-right" data-toggle="modal" href='#newNote'>New Note</button>
+			  	<br/>
+			  	<table class="table table-condensed table-hover">
+			  		<thead>
+			  			<tr>
+			  				<th>ID</th>
+			  				<th>Title</th>
+			  				<th>Created By</th>
+			  				<th>Date Created</th>
+			  			</tr>
+			  		</thead>
+			  		<tbody id="notesTable">
+
+			  		</tbody>
+			  	</table>
 			  </div>
 		</div>
 	</div>
@@ -139,6 +194,110 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" id="btnSaveCall" class="btn btn-info">Save</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" id="newMeeting">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">New Call</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" method="POST" class="form-horizontal" role="form" id="">
+						<div class="form-group">
+							<label for="scheduledFor" class="col-sm-3 control-label">Scheduled For</label>
+							<div class="col-sm-8">
+								<input type="text" id="scheduledFor" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-3 control-label">Description</label>
+							<div class="col-sm-8">
+								<input type="text" id="description" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="agenda" class="col-sm-3 control-label">Agenda</label>
+							<div class="col-sm-8">
+								<textarea name="agenda" id="agenda" cols="30" rows="10" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="location" class="col-sm-3 control-label">Location</label>
+							<div class="col-sm-8">
+								<input type="text" id="location" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="joinUrl" class="col-sm-3 control-label">URL</label>
+							<div class="col-sm-8">
+								<input type="text" id="joinUrl" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="externalId" class="col-sm-3 control-label">External ID</label>
+							<div class="col-sm-8">
+								<input type="text" id="externalId" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="meetingType" class="col-sm-3 control-label">Meeting Type</label>
+							<div class="col-sm-8">
+								<input type="text" id="meetingType" class="col-sm-6 form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="reminderTime" class="col-sm-3 control-label">Reminder</label>
+							<div class="col-sm-8">
+								<input type="text" id="reminderTime" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="emailReminder" class="col-sm-3 control-label">Email Reminder</label>
+							<div class="col-sm-8">
+								<input type="text" id="emailReminder" class="form-control"/>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="saveMeeting" type="button" class="btn btn-info">Save</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" id="newNote">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">New Note</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" method="POST" class="form-horizontal" role="form" id="newNoteForm">
+						<div class="form-group">
+							<label for="noteTitle" class="col-sm-3 control-label">Title</label>
+							<div class="col-sm-8">
+								<input type="text" id="noteTitle" class="form-control"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="noteDetails" class="col-sm-3 control-label">Details</label>
+							<div class="col-sm-8">
+								<textarea name="noteDetails" id="noteDetails" cols="30" rows="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
