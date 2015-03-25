@@ -15,21 +15,21 @@
     <script>
     	function getOpportunities () {
     		$.ajax({
-    			url: "http://localhost:55939/api/opportunities",
+    			url: "http://localhost/index.php/opportunity",
     			type: "GET",
     			success: function(opportunities) {
     				opportunities.forEach(function(opportunity) {
     					$("#opportunitiesTable").append(
     						"<tr>" +
-	    						"<td>" + opportunity.ID + "</td>" +
-	    						"<td>" + opportunity.Name + "</td>" +
-	    						"<td>" + opportunity.OpportunityType + "</td>" +
-	    						"<td>" + opportunity.TargetQuantity + "</td>" +
-	    						"<td>" + opportunity.TargetUnit + "</td>" + 
-	    						"<td>" + opportunity.TargetValue + "</td>" +
-	    						"<td>" + opportunity.DateOpen.split("T")[0] + "</td>" +
-	    						"<td>" + opportunity.DateClosed.split("T")[0] + "</td>" +
-	    						"<td>" + opportunity.Probability + "</td>" +
+	    						"<td><a href='opportunity_details.html?id="+opportunity.id+"'>" + opportunity.id + "</a></td>" +
+	    						"<td>" + opportunity.name + "</td>" +
+	    						"<td>" + opportunity.opportunityType + "</td>" +
+	    						"<td>" + opportunity.targetQuantity + "</td>" +
+	    						"<td>" + opportunity.targetUnit + "</td>" + 
+	    						"<td>" + opportunity.targetValue + "</td>" +
+	    						"<td>" + opportunity.dateOpen.split("T")[0] + "</td>" +
+	    						"<td>" + opportunity.dateClosed.split("T")[0] + "</td>" +
+	    						"<td>" + opportunity.probability + "</td>" +
     						"</tr>"
     					);
     				});
@@ -40,20 +40,20 @@
 
     	function createOpportunity () {
     		$.ajax({
-    			url: "http://localhost:55939/api/opportunities",
+    			url: "http://localhost/index.php/opportunity",
     			type: "POST",
     			async: true,
     			data: {
-    				"ID" : $("#id").val(),
-    				"Name" : $("#name").val(),
-    				"Description": $("#description").val(),
-    				"Active": ($("#active").val() == 'on' ? true : false),
-    				"OpportunityType": $("#opportunityType").val(),
-    				"TargetQuantity": $("#targetQty").val(),
-    				"TargetUnit": $("#targetUnit").val(),
-    				"TargetValue": $("#targetValue").val(),
-    				"DateOpen" : $("#dateOpen").val(),
-    				"Probability": $("#probability").val()
+    				"iD" : $("#id").val(),
+    				"name" : $("#name").val(),
+    				"description": $("#description").val(),
+    				"active": ($("#active").val() == 'on' ? true : false),
+    				"opportunityType": $("#opportunityType").val(),
+    				"targetQuantity": $("#targetQty").val(),
+    				"targetUnit": $("#targetUnit").val(),
+    				"targetValue": $("#targetValue").val(),
+    				"dateOpen" : $("#dateOpen").val(),
+    				"probability": $("#probability").val()
     			},
     			success: function(result) {
     				console.log(result);

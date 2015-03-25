@@ -25,5 +25,16 @@ class ContactController {
 
 	}
 
+	public function POST($parameters) {
+		$accountId = $parameters["account"];
+		$relation = array(
+			'accountId' => $parameters["account"], 
+			'contactId' => $parameters["id"]
+		);
+		unset($parameters['account']);
+		$this->databaseContext->persistArray("contact", $parameters);
+		$this->databaseContext->persistArray("account_contacts", $relation);
+	}
+
 	private $databaseContext;
 }

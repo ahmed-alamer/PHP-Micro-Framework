@@ -115,7 +115,6 @@ function getNotes () {
 		success: function(notes) {
 			$("#notesTable").empty();
 			notes.forEach(function(note) {
-				console.log(note);
 				$("#notesTable").append(
 					"<tr>" +
 					"<td>" + note.id + "</td>" +
@@ -156,6 +155,34 @@ function getContacts (accountId) {
 		}
 	});
 }
+
+function getServiceCases () {
+	$.ajax({
+		url: backEndUrlBase + "service/?contactId=" + contactId,
+		type: "GET",
+		success: function(services) {
+			$("#casesTable").empty();
+			services.forEach(function(service) {
+				$("#casesTable").append(
+					"<tr>" +
+					"<td>" + service.id + "</td>" +
+					"<td>" + service.caseType + "</td>" +
+					"<td>" + service.openDate + "</td>" +
+					"<td>" + service.employeeName + "</td>" +
+					"<td>" + service.priority + "</td>" +
+					"<td>" + service.state + "<td>" +
+					"<td>" + service.description + "</td>"
+				);
+			});
+		},
+		error: function(xhr, xhrObject, message) {
+			console.log(xhr);
+			console.log(xhrObject);
+			console.log(message);
+		}
+	});	
+}
+
 function updateUI(lastContext) {
 	switch(lastContext) {
 		case "#calls":
@@ -168,6 +195,7 @@ function updateUI(lastContext) {
 			getNotes();
 			break;
 		case "#cases":
+			getServiceCases();
 			break;
 	}
 }
@@ -179,9 +207,11 @@ $(document).ready(function() {
 	});
 	$("#callsToggle").click(function() {
 		switchContext("#calls", "Calls");
+		getAllCalls();
 	});
 	$("#casesToggle").click(function() {
 		switchContext("#cases", "Cases");
+		getServiceCases();
 	});
 	$("#notesToggle").click(function() {
 		switchContext("#notes", "Notes");

@@ -24,7 +24,7 @@ class AccountController
 	}
 
 	public function POST($parameters) {
-		echo $databaseContext->persistArray("account", $parameters);
+		echo $this->databaseContext->persistArray("account", $parameters);
 	}
 
 	private $databaseContext;

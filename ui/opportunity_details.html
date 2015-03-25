@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Opportunity Details</title>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script>
+		var opportunityId = null;
+
+		function getOpprotunities () {
+			$.ajax({
+				url: "http://localhost/index.php/opportunity",
+				type: "GET",
+				success: function(opprtunities) {
+					opprtunities.forEach(function(opportunity) {
+						$("#opportunitySelector").append(
+							"<option value='"+opportunity.id+"'>" + opportunity.name + "</option>"
+						);
+					});
+				},
+				error: function(xhr, obj, message) {
+					console.log(xhr);
+					console.log(obj);
+					console.log(message);
+				}
+			});
+		}
+
+		function getOpportunity () {
+			$.ajax({
+				url: "http://localhost/index.php/opportunity/?id=" + opportunityId,
+				type: "GET",
+				success: function(opportunity) {
+					$("#opportunityId").text(opportunity.id);
+					$("#opportunityName").text(opportunity.name);
+					$("#opportunityDescription").text(opportunity.description);
+					$("#active").text(opportunity.active);
+					$("#opportunityType").text(opportunity.opportunityType);
+					$("#targetQty").text(opportunity.targetQuantity.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					$("#targetUnit").text(opportunity.targetUnit);
+					$("#targetValue").text(opportunity.targetValue.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					$("#dateOpen").text(opportunity.dateOpen);
+					$("#closeDate").text(opportunity.dateClosed);
+					$("#probability").text((opportunity.probability * 100) + "%");
+					$.ajax({
+						url: "http://localhost/index.php/opportunity/?contactsFor=" + opportunityId,
+						type: "GET",
+						success: function(contacts) {
+							getContacts(contacts);
+						},
+						error: function(xhr, obj, message) {
+							console.log(xhr);
+							console.log(obj);
+							console.log(message);
+						}
+					});
+				},
+				error: function(xhr, obj, message) {
+					console.log(xhr);
+					console.log(obj);
+					console.log(message);
+				}
+			});
+		}
+
+		function getContacts (contactIdList) {
+			$("#contactsTable").empty();
+			contactIdList.forEach(function(contactObject) {
+				$.ajax({
+					url: "http://localhost/index.php/contact/?id=" + contactObject.contactId,
+					type: "GET",
+					success: function(contact) {
+						$("#contactsTable").append(
+							"<tr>"+
+								"<td>"+ contact.id + "</td>" +
+								"<td>"+ contact.firstName + " " + contact.lastName + "</td>" +
+								"<td>"+ contact.title + "</td>" +
+								"<td>"+ contact.phoneWork + "</td>" +
+								"<td>"+ contact.mobile + "</td>" +
+								"<td>"+ contact.emailAddress + "</td>" +
+							"</tr>"
+						);
+					},
+					error: function(xhr, obj, message) {
+						console.log(xhr);
+						console.log(obj);
+						console.log(message);
+					}
+				});
+			});
+		}
+
+		/*
+		* code from: http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
+		*/
+		function getUrlParameter(sParam)
+		{
+		    var sPageURL = window.location.search.substring(1);
+		    var sURLVariables = sPageURL.split('&');
+		    for (var i = 0; i < sURLVariables.length; i++) 
+		    {
+		        var sParameterName = sURLVariables[i].split('=');
+		        if (sParameterName[0] == sParam) 
+		        {
+		            return sParameterName[1];
+		        }
+		    }
+		}        
+
+		$(document).ready(function() {
+			opportunityId = getUrlParameter("id") == undefined ? null : getUrlParameter("id");
+
+			getOpprotunities();			
+			
+				$("#opportunitySelector").change(function() {
+				opportunityId = $(this).val();
+				getOpportunity();
+			});
+			if (opportunityId) {
+				getOpportunity();
+			}
+		});
+	</script>
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	        </button>
+	        <a class="navbar-brand" href="index.html">Clear CRM</a>
+	    </div>
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse navbar-ex1-collapse">
+	        <ul class="nav navbar-nav">
+	            <li><a href="accounts.html">Accounts</a></li>
+	            <li><a href="contacts.html">Contacts</a></li>
+	            <li><a href="activities.html">Activities</a></li>
+	            <li class='active'><a href="opportunity_details.html">Opportunities</a></li>
+	            <li><a href="#">Products</a></li>
+	        </ul>
+	        <ul class="nav navbar-nav navbar-right">
+	            <li class="dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="#">Action</a></li>
+	                    <li><a href="#">Another action</a></li>
+	                    <li><a href="#">Something else here</a></li>
+	                    <li><a href="#">Separated link</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </div><!-- /.navbar-collapse -->
+	</nav>
+	<div class="container" style="width:99%">
+		<div class="panel panel-default">
+			<div class="panel-body">
+			   <form action="" method="POST" class="form-horizontal" role="form">
+		   			<legend>Opportunity</legend>
+			   		<div class="form-group">
+			   			<label for="opportunitySelector" class="col-sm-3 control-label">Opportunity</label>
+			   			<div class="col-sm-8">
+			   				<select name="opportunitySelector" id="opportunitySelector" class="form-control">
+			   					<option value="empty">Select an Opprotunity...</option>
+			   				</select>
+			   			</div>
+			   		</div>
+			   </form>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Opprotunity Details</h3>
+			</div>
+			<div class="panel-body">
+				<form action="" method="POST" class="form-horizontal" role="form">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="opportunityId" class="col-sm-3 control-label">ID</label>
+							<div id="opportunityId" class="col-sm-6 form-control-static"></div>
+						</div>
+						<div class="col-md-6">
+							<label for="opportunityName" class="col-sm-3 control-label">Name</label>
+							<div id="opportunityName" class="col-sm-6 form-control-static"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="opportunityDescription" class="col-sm-3 control-label">Description</label>
+							<div class="col-sm-6">
+								<div id="opportunityDescription" class="form-control-static"></div>	
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="active" class="col-sm-3 control-label">Active</label>
+							<div id="active" class="col-sm-6 form-control-static"></div>
+						</div>
+						<div class="col-md-6">
+							<label for="opportunityType" class="col-sm-3 control-label">Type</label>
+							<div id="opportunityType" class="col-sm-6 form-control-static"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="dateOpen" class="col-sm-3 control-label">Open Date</label>
+							<div id="dateOpen" class="col-sm-6 form-control-static"></div>
+						</div>
+						<div class="col-md-6">
+							<label for="closeDate" class="col-sm-3 control-label">Close Date</label>
+							<div id="closeDate" class="col-sm-6 form-control-static"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="targetQty" class="col-sm-3 control-label">Target Qunatity</label>
+							<div id="targetQty" class="col-sm-6 form-control-static"></div>
+						</div>
+						<div class="col-md-6">
+							<label for="targetUnit" class="col-sm-3 control-label">Target Unit</label>
+							<div id="targetUnit" class="col-sm-6 form-control-static"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="targetValue" class="col-sm-3 control-label">Target Value</label>
+							<div id="targetValue" class="col-sm-6 form-control-static"></div>
+						</div>
+						<div class="col-md-6">
+							<label for="probability" class="col-sm-3 control-label">Probability</label>
+							<div id="probability" class="col-sm-6 form-control-static"></div>
+						</div>
+					</div>
+				</form>					
+			</div>
+		</div>
+		<div class="panel panel-primary">
+			  <div class="panel-heading">
+					<h3 class="panel-title">Opporunity Targets</h3>
+			  </div>
+			  <div class="panel-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Title</th>
+								<th>Phone</th>
+								<th>Mobile</th>
+								<th>Email</th>
+							</tr>
+						</thead>
+						<tbody id="contactsTable">
+						</tbody>
+					</table>
+			  </div>
+		</div>		
+	</div>
+</body>
+</html>

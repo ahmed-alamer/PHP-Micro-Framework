@@ -90,7 +90,7 @@
         $.ajax({
 
             // The URL for the request
-            url: "http://localhost:55939/api/accounts/",
+            url: "http://localhost/index.php/account",
 
             // The data to send (will be converted to a query string)
             data: {
@@ -202,6 +202,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="accountId" class="col-sm-3 control-label">Account ID</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" id="accountId" class="form-control"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="companyName" class="col-sm-3 control-label">Company Name</label>
                                     <div class="col-sm-7">
                                         <input id='companyName' type="text" class="form-control" />
@@ -231,12 +237,6 @@
                                         <label>
                                             <input id='active' type="checkbox">
                                         </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="webiste" class="col-sm-3 control-label">Website</label>
-                                    <div class="col-sm-7">
-                                        <input id='webiste' type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">

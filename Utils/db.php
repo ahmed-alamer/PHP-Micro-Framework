@@ -50,7 +50,7 @@ class DatabaseContext
 		$sql .= $rowsNames ." VALUES" .$values;
 		$query = $this->database->prepare($sql);
 		$query->execute($array);
-		return $db->lastInsertId();
+		return $this->database->lastInsertId();
 	}
 
 	private $database;
