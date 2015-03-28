@@ -15,16 +15,16 @@ class AccountController
 
 	public function GET($parameters) {
 		if(count($parameters) == 0) {
-			echo json_encode($this->databaseContext->getEntities("account"));
+			return($this->databaseContext->getEntities("account"));
 		} 
 
 		if(array_key_exists("id", $parameters)) {
-			echo json_encode($this->databaseContext->getEntity("account", $parameters["id"]));
+			return($this->databaseContext->getEntity("account", $parameters["id"]));
 		}
 	}
 
 	public function POST($parameters) {
-		echo $this->databaseContext->persistArray("account", $parameters);
+		return $this->databaseContext->persistArray("account", $parameters);
 	}
 
 	private $databaseContext;

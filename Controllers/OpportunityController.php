@@ -14,15 +14,15 @@ class OpportunityController {
 	public function GET($parameters) {
 		
 		if (count($parameters) == 0) {
-			echo json_encode($this->databaseContext->getEntities("opportunity"));
+			return($this->databaseContext->getEntities("opportunity"));
 		}
 
 		if (array_key_exists("id", $parameters)) {
-			echo json_encode($this->databaseContext->getEntity("opportunity", $parameters["id"]));
+			return($this->databaseContext->getEntity("opportunity", $parameters["id"]));
 		}
 
 		if (array_key_exists("contactsFor", $parameters)) {
-			echo json_encode($this->databaseContext->getObjectList("select contactId from contact_opprtunity where opportunityId=" . $parameters["contactsFor"]));
+			return($this->databaseContext->getObjectList("select contactId from contact_opprtunity where opportunityId=" . $parameters["contactsFor"]));
 		}
 	}
 }

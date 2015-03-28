@@ -29,10 +29,10 @@ $controller = new $controllerClass();
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
-		$controller->POST($_POST);
+		echo json_encode($controller->POST($_POST));
 		break;
 	case 'GET':
-		$controller->GET($_GET);
+		echo json_encode($controller->GET($_GET));
 		break;
 	default:
 		break;
