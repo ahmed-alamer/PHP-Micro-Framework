@@ -14,53 +14,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     
     <script>
-    function viewAccount(accountId) {
-        console.log(accountId);
-        $.ajax({
-            url: "http://localhost/index.php/account/?id=" + accountId,
-            type: "GET",
-            async: true,
-            success : function(account) {
-                $("#txtID").text(account.id),
-                $("#txtCompanyName").text(account.companyName),
-                $("#txtIntroducedBy").text(account.introducedBy),
-                $("#txtDescription").text(account.description),
-                $("#txtActive").text(account.active),
-                $("#txtIndustry").text(account.industry),
-                $("#txtAnnualRevenue").text(account.annualRevenue),
-                $("#txtPhoneFax").text(account.phoneFax),
-                $("#txtBillingAddressStreet").text(account.billingAddressStreet),
-                $("#txtBillingAddressCity").text(account.billingAddressCity),
-                $("#txtBillingAddressState").text(account.billingAddressState),
-                $("#txtBillingAddressZipcode").text(account.billingAddressZipcode),
-                $("#txtBillingAddressCountry").text(account.billingAddressCountry),
-                $("#txtRating").text(account.rating),
-                $("#txtMainPhone").text(account.mainPhone),
-                $("#txtAlternativePhone").text(account.alternativePhone),
-                $("#txtWebsite").text(account.website),
-                $("#txtOwnership").text(account.ownership),
-                $("#txtEmployees").text(account.employees),
-                $("#txtTickerSymbol").text(account.tickerSymbol),
-                $("#txtShippingAddressStreet").text(account.shippingAddressStreet),
-                $("#txtShippingAddressCity").text(account.shippingAddressCity),
-                $("#txtShippingAddressState").text(account.shippingAddressState),
-                $("#txtShippingAddressZipcode").text(account.shippingAddressZipcode),
-                $("#txtShippingAddressCountry").text(account.shippingAddressCountry)
-            },
-            error: function(xhr) {
-                console.log(xhr);
-                console.log("You Fucked Up!");
-            },
-            complete: function() {
-                $("#accountDetailsModal").modal('show');
-            }
-        });
-    }
-
     function addToTable (jsonObject) {
         $("#accountsTable").append(
-            "<tr onclick='viewAccount("+jsonObject.id+")'>" +
-                "<td>" + jsonObject.id + "</td>" +
+            "<tr >" +
+                "<td><a href='account_details.html?id="+jsonObject.id+"'>" + jsonObject.id + "</a></td>" +
                 "<td>" + jsonObject.companyName + "</td>" +
                 "<td>" + jsonObject.introducedBy + "</td>" +
                 "<td>" + jsonObject.industry + "</td>" +
@@ -152,8 +109,40 @@
         });
     }
 
+    function getAllProducts () {
+        $.ajax({
+            url: "http://localhost/index.php/product",
+            type: "GET",
+            success: function(products) {
+                products.forEach(function(product) {
+                    $("#productName").append("<option value='"+product.id+"'>"+product.name+"</option>");
+                });
+            },
+            error: function(xhr, error, message) {}
+        });
+    }
+
+    function getInterestProducts (accountId) {
+        $.ajax({
+            url: "http://localhost/index.php/product/?accountId="+accountId,
+            type: "GET",
+            success: function(products) {
+                products.forEach(function(product) {
+                    $("productsTable").append(
+                        "<tr>" +
+                        "<td>" + product.id + "</td>" +
+                        "<td>" + product.name + "</td>" +
+                        "</tr>" 
+                    );
+                });
+            },
+            error: function() {}
+        });
+    }
+
     $(document).ready(function() {
         getAllAccounts();
+        getAllProducts();
     });
     </script>
 </head>
@@ -177,7 +166,7 @@
                 <li><a href="contacts.html">Contacts</a></li>
                 <li><a href="activities.html">Activities</a></li>
                 <li><a href="opportunities.html">Opportunities</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="products.html">Products</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -397,172 +386,33 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="accountDetailsModal">
-        <div class="modal-dialog" style="width:90%">
+    <div class="modal fade" id="connectProduct">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Account Details</h4>
+                    <h4 class="modal-title">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                <div class="panel-body">
-                    <form action="" class="form-horizontal">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="txtID" class="col-sm-3 control-label">ID</label>
-                                        <div id= "txtID" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="companyName" class="col-sm-3 control-label">Company Name</label>
-                                        <div id="txtCompanyName" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description" class="col-sm-3 control-label">Description</label>
-                                        <div id= "txtDescription" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="annualRevenue" class="col-sm-3 control-label">Annual Revenue</label>
-                                        <div id= "txtAnnualRevenue" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="alternativePhone" class="col-sm-3 control-label">Alternative Phone</label>
-                                        <div id= "txtAlternativePhone" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="active" class="control-label col-sm-3">Active</label>
-                                        <div id="txtActive" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="webiste" class="col-sm-3 control-label">Website</label>
-                                        <div id= "txtWebsite" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="industry" class="col-sm-3 control-label">Industry</label>
-                                        <div id= "txtIndustry" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="introducedBy" class="col-sm-3 control-label">Intorduced By</label>
-                                        <div id= "txtIntroducedBy" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mainPhone" class="col-sm-3 control-label">Main Phone</label>
-                                        <div id= "txtMainPhone" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phoneFax" class="col-sm-3 control-label">Phone Fax</label>
-                                        <div id= "txtPhoneFax" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="rating" class="col-sm-3 control-label">Rating</label>
-                                        <div id= "txtRating" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="employees" class="col-sm-3 control-label">Employees</label>
-                                        <div id= "txtEmployees" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tickerSymbol" class="col-sm-3 control-label">Ticker Symbol</label>
-                                        <div id= "txtTickerSymbol" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                </div>
+                    <form action="" method="POST" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="productName" class="control-label col-sm-3">Product</label>
+                            <div class="col-sm-7">
+                                <select name="productName" id="productName" class="form-control">
+                                    
+                                </select>                                
                             </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="billingAddressStreet" class="col-sm-3 control-label">Billing Address Street</label>
-                                        <div id= "txtBillingAddressStreet" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="billingAddressCity" class="col-sm-3 control-label">Billing Address City</label>
-                                        <div id= "txtBillingAddressCity" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="billingAddressState" class="col-sm-3 control-label">Billing Address State</label>
-                                        <div id= "txtBillingAddressState" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="billingAddressZipcode" class="col-sm-3 control-label">Billing Address Zip Code</label>
-                                        <div id= "txtBillingAddressZipcode" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="billingAddressCountry" class="col-sm-3 control-label">Billing Address Country</label>
-                                        <div id= "txtBillingAddressCountry" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
-                                        <div id= "txtShippingAddressStreet" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
-                                        <div id= "txtShippingAddressCity" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
-                                        <div id= "txtShippingAddressState" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
-                                        <div id= "txtShippingAddressZipcode" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
-                                        <div id= "txtShippingAddressCountry" class="col-sm-7 form-control-static">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div>              
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-<!--     <div class="container" style='width:99%'>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Account Details</h3>
-            </div>
-            <div class="panel-body">
-                Panel content
-            </div>
-        </div>
-    </div>
- -->    <hr />
+    <hr />
     <div class="container" style='text-align:center'>
         No Copyrights. Cool, isn't it?
     </div>

@@ -22,7 +22,6 @@ class ContactController {
 		if(array_key_exists("accountId", $parameters)) {
 			return($this->databaseContext->getObjectList("select * from contact join account_contact on contact.id = account_contact.contactId where account_contact.accountId = " . $parameters["accountId"]));
 		}
-
 	}
 
 	public function POST($parameters) {

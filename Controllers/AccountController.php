@@ -24,7 +24,17 @@ class AccountController
 	}
 
 	public function POST($parameters) {
-		return $this->databaseContext->persistArray("account", $parameters);
+		if (array_key_exists("productId", $parameters) & array_key_exists("accountId", $parameters)) {
+			return $this->databaseContext->persistArray("account_product",
+				array(
+					"accountId" => $parameters["accountId"], 
+					"productId" => $parameters["productId"]
+				)
+			);
+		} else {
+			return $this->databaseContext->persistArray("account", $parameters);	
+		}
+		
 	}
 
 	private $databaseContext;
