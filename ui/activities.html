@@ -1,21 +1,24 @@
-<!DOCTYPE html>
 <html>
 <head>
-	<title>Activites</title>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<!-- Latest compiled and minified CSS -->
-
-	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <!-- <link href="css/vendor/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="css/flat-ui.min.css" rel="stylesheet">
-
-	<!-- Optional theme -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script src="js/activities.js"></script>
+	<title>Activities</title>
+	<!-- Latest compiled and minified CSS & JS -->
+	<link rel="stylesheet" media="screen" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="//code.jquery.com/jquery.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/activities.js"></script>
+	<link href="css/flat-ui.min.css" rel="stylesheet">
+	<script type="text/javascript" src="js/flat-ui.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){ 
+		    $("#activitiesTabs a").click(function(e){
+		        e.preventDefault();
+		        updateData($(this).attr("href"));
+		        $(this).tab('show');
+		    });
+		    $("select").select2({dropdownCssClass: 'dropdown-inverse'});		
+		    $(':checkbox').radiocheck();		
+		});
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -52,126 +55,116 @@
 	        </ul>
 	    </div><!-- /.navbar-collapse -->
 	</nav>
-	<div class="pull-left" style="width:15%; margin-left:1%">
-		<div class="panel panel-info">
-			  <div class="panel-heading">
-					<h3 class="panel-title">Activities</h3>
-			  </div>
-			  <div class="panel-body list-group">
-				  <a href="#" class="list-group-item active" id="callsToggle">Calls</a>
-				  <a href="#" class="list-group-item" id="casesToggle">Cases</a>
-				  <a href="#" class="list-group-item" id="meetingsToggle">Meetings</a>
-				  <a href="#" class="list-group-item" id="notesToggle">Notes</a>
-			  </div>
-		</div>		
-	</div>
-	<div class="pull-right" style="width:82%; margin-right:1%">
-		<div class="panel panel-success">
-			<div class="panel-body">
-				<form action="" method="GET" role="form" class="form-horizontal">
-					<legend>Account &amp; Contact</legend>
-				
-					<div class="form-group">
-						<label for="accountSelector" class="control-label col-sm-2">Account</label>
-						<div class="col-sm-9">
-							<select data-toggle="select" name="accountSelector" id="accountSelector" class="form-control">
-								<option value="empty">Select Account...</option>
-							</select>
-						</div>
+	<div class="panel panel-success container" style="width:98%">
+		<div class="panel-body">
+			<form action="" method="GET" role="form" class="form-horizontal">
+				<legend>Account &amp; Contact</legend>
+			
+				<div class="form-group">
+					<label for="accountSelector" class="control-label col-sm-2">Account</label>
+					<div class="col-sm-9">
+						<select data-toggle="select" name="accountSelector" id="accountSelector" class="form-control select select-inverse">
+							<option value="empty">Select Account...</option>
+						</select>
 					</div>
-					<div class="form-group">
-						<label for="contactSelector" class="control-label col-sm-2">Contact</label>
-						<div class="col-sm-9">
-							<select name="contactSelector" id="contactSelector" class="form-control">
-								<option value="empty">Select Contact...</option>
-							</select>
-						</div>
+				</div>
+				<div class="form-group">
+					<label for="contactSelector" class="control-label col-sm-2">Contact</label>
+					<div class="col-sm-9">
+						<select name="contactSelector" id="contactSelector" class="form-control select select-inverse">
+							<option value="empty">Select Contact...</option>
+						</select>
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
-		<div class="panel panel-success">
-			  <div class="panel-heading">
-					<h3 class="panel-title" id="contentTitle">Calls</h3>
-			  </div>
-			  <div class="panel-body" id="calls">
-			  	<a class="btn btn-default pull-right" data-toggle="modal" href='#newCall'>Log Call</a>
-			  	<br/>
-			  	<table class="table table-condensed table-hover">
-			  		<thead>
-			  			<tr>
-			  				<th style="width:10%">ID</th>
-			  				<th style="width:10%">Employee</th>
-			  				<th style="width:10%">Direction</th>
-			  				<th style="width:10%">Date</th>
-			  				<th style="width:10%">Duration</th>
-			  				<th style="width:50%">Blog</th>
-			  			</tr>
-			  		</thead>
-			  		<tbody id="callsTable">
-			  		</tbody>
-			  	</table>
-			  </div>
-			  <div class="panel-body hide" id="meetings">
-			  	<a class="btn btn-default pull-right" data-toggle="modal" href='#newMeeting'>New Meeting</a>
-			  	<br/>
-			  	<table class="table table-condensed table-hover">
-			  		<thead>
-			  			<tr>
-			  				<th>ID</th>
-			  				<th>Location</th>
-			  				<th>Duration</th>
-			  				<th>Status</th>
-			  				<th>Type</th>
-			  				<th>Employee</td>
-			  				<th>Description</th>
-			  			</tr>
-			  		</thead>
-			  		<tbody id="meetingsTable">
-			  		</tbody>
-			  	</table>
-			  </div>
-			  <div class="panel-body hide" id="cases">
-			  	<button type="button" class="btn btn-default pull-right">New Service Case</button>
-			  	<br/>
-			  	<br/>
-			  	<table class="table table-condensed table-hover">
-			  		<thead>
-			  			<tr>
-			  				<th>ID</th>
-			  				<th>Type</th>
-			  				<th>Open</th>
-			  				<th>Employee</th>
-			  				<th>Priority</th>
-			  				<th>Status</th>
-			  				<th>Description</th>
-			  			</tr>
-			  		</thead>
-			  		<tbody id="casesTable">
-			  			
-			  		</tbody>
-			  	</table>
-			  </div>
-			  <div class="panel-body hide" id="notes">
-			  	<button type="button" class="btn btn-default pull-right" data-toggle="modal" href='#newNote'>New Note</button>
-			  	<br/>
-			  	<table class="table table-condensed table-hover">
-			  		<thead>
-			  			<tr>
-			  				<th>ID</th>
-			  				<th>Title</th>
-			  				<th>Created By</th>
-			  				<th>Date Created</th>
-			  			</tr>
-			  		</thead>
-			  		<tbody id="notesTable">
+	</div>
+	<ul class="nav nav-tabs container" style="width:98%" id="activitiesTabs">
+	    <li class="active"><a href="#calls">Calls</a></li>
+	    <li><a href="#cases">Cases</a></li>
+	    <li><a href="#meetings">Meetings</a></li>
+	    <li><a href="#notes">Notes</a></li>
 
-			  		</tbody>
-			  	</table>
-			  </div>
-		</div>
+	</ul>
+	<div class="tab-content container" style="width:98%">
+		<br/>
+	    <div id="calls" class="tab-pane fade in active">
+	    	<a class="btn btn-default pull-right" data-toggle="modal" href='#newCall'>Log Call</a>
+	    	<br/>
+	    	<table class="table table-condensed table-hover">
+	    		<thead>
+	    			<tr>
+	    				<th style="width:10%">ID</th>
+	    				<th style="width:10%">Employee</th>
+	    				<th style="width:10%">Direction</th>
+	    				<th style="width:10%">Date</th>
+	    				<th style="width:10%">Duration</th>
+	    				<th style="width:50%">Blog</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody id="callsTable">
+	    		</tbody>
+	    	</table>
+	    </div>
+	    <div id="meetings" class="tab-pane fade">
+	    	<a class="btn btn-default pull-right" data-toggle="modal" href='#newMeeting'>New Meeting</a>
+	    	<br/>
+	    	<table class="table table-condensed table-hover">
+	    		<thead>
+	    			<tr>
+	    				<th>ID</th>
+	    				<th>Location</th>
+	    				<th>Duration</th>
+	    				<th>Status</th>
+	    				<th>Type</th>
+	    				<th>Employee</td>
+	    				<th>Description</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody id="meetingsTable">
+	    		</tbody>
+	    	</table>
+	    </div>
+	    <div id="notes" class="tab-pane fade">
+			<button type="button" class="btn btn-default pull-right" data-toggle="modal" href='#newNote'>New Note</button>
+			<br/>
+			<table class="table table-condensed table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Title</th>
+						<th>Created By</th>
+						<th>Date Created</th>
+					</tr>
+				</thead>
+				<tbody id="notesTable">
+
+				</tbody>
+			</table>
+	    </div>
+	    <div id="cases" class="tab-pane fade">
+	    	<button type="button" class="btn btn-default pull-right">New Service Case</button>
+	    	<br/>
+	    	<br/>
+	    	<table class="table table-condensed table-hover">
+	    		<thead>
+	    			<tr>
+	    				<th>ID</th>
+	    				<th>Type</th>
+	    				<th>Open</th>
+	    				<th>Employee</th>
+	    				<th>Priority</th>
+	    				<th>Status</th>
+	    				<th>Description</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody id="casesTable">
+	    			
+	    		</tbody>
+	    	</table>
+	    </div>
 	</div>
-	<!-- New Call -->
+
 	<div class="modal fade" id="newCall">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -190,7 +183,7 @@
 						<div class="form-group">
 							<label for="direction" class="control-label col-sm-3">Direction</label>
 							<div class="col-sm-8">
-								<select name="direction" id="direction" class="form-control">
+								<select name="direction" id="direction" class="form-control select select-inverse">
 									<option value="out">Outbound</option>
 									<option value="in">Inbound</option>
 								</select>

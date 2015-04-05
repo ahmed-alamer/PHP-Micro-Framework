@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear CRM</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <script>
+    	function getOpportunities () {
+    		$.ajax({
+    			url: "http://localhost/index.php/opportunity",
+    			type: "GET",
+    			success: function(opportunities) {
+    				opportunities.forEach(function(opportunity) {
+    					$("#opportunitiesTable").append(
+    						"<tr>" +
+	    						"<td><a href='opportunity_details.html?id="+opportunity.id+"'>" + opportunity.id + "</a></td>" +
+	    						"<td>" + opportunity.name + "</td>" +
+	    						"<td>" + opportunity.opportunityType + "</td>" +
+	    						"<td>" + opportunity.targetQuantity + "</td>" +
+	    						"<td>" + opportunity.targetUnit + "</td>" + 
+	    						"<td>" + opportunity.targetValue + "</td>" +
+	    						"<td>" + opportunity.dateOpen.split("T")[0] + "</td>" +
+	    						"<td>" + opportunity.dateClosed.split("T")[0] + "</td>" +
+	    						"<td>" + opportunity.probability + "</td>" +
+    						"</tr>"
+    					);
+    				});
+    			},
+    			error: function() {}
+    		});
+    	}
+
+    	function createOpportunity () {
+    		$.ajax({
+    			url: "http://localhost/index.php/opportunity",
+    			type: "POST",
+    			async: true,
+    			data: {
+    				"iD" : $("#id").val(),
+    				"name" : $("#name").val(),
+    				"description": $("#description").val(),
+    				"active": ($("#active").val() == 'on' ? true : false),
+    				"opportunityType": $("#opportunityType").val(),
+    				"targetQuantity": $("#targetQty").val(),
+    				"targetUnit": $("#targetUnit").val(),
+    				"targetValue": $("#targetValue").val(),
+    				"dateOpen" : $("#dateOpen").val(),
+    				"probability": $("#probability").val()
+    			},
+    			success: function(result) {
+    				console.log(result);
+    			},
+    			error: function() {
+    				console.log("You Fucked Up!");
+    			}
+    		});
+    	}
+
+    	$(document).ready(function() {
+    		getOpportunities();
+    	});
+    </script>
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	        </button>
+	        <a class="navbar-brand" href="index.html">Clear CRM</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse navbar-ex1-collapse">
+	        <ul class="nav navbar-nav">
+	            <li><a href="accounts.html">Accounts</a></li>
+	            <li ><a href="contacts.html">Contacts</a></li>
+	            <li><a href="activities.html">Activities</a></li>
+	            <li class='active'><a href="opportunities.html">Opportunities</a></li>
+                <li><a href="products.html">Products</a></li>
+	        </ul>
+	        <ul class="nav navbar-nav navbar-right">
+	            <li class="dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="#">Action</a></li>
+	                    <li><a href="#">Another action</a></li>
+	                    <li><a href="#">Something else here</a></li>
+	                    <li><a href="#">Separated link</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </div><!-- /.navbar-collapse -->
+	</nav>
+	<div class="container" style='width:99%'>
+		<div class="panel panel-success">
+			  <div class="panel-heading">
+					<h3 class="panel-title"><a href="#newOpprotunity" data-toggle='collapse' aria-expanded="false" aria-controls='newOpprotunity'>New Opportunity</a></h3>
+			  </div>
+			  <div class="panel-collapse collapse" id="newOpprotunity">
+			  	  <div class="panel-body">
+			  	  	<form action="" method="POST" class="form-horizontal" role="form">
+			  	  		<div class="row">
+			  	  			<div class="col-md-5">
+			  	  				<div class="form-group">
+			  	  					<label for="id" class="control-label col-sm-3">ID</label>
+			  	  					<div class="col-sm-7">
+			  	  						<input type="text" id="id" class="form-control"/>
+			  	  					</div>
+			  	  				</div>
+			  		  			<div class="form-group">
+			  		  				<label for="name" class="control-label col-sm-3">Name</label>
+			  		  				<div class="col-sm-7">
+			  		  					<input type="text" id="name" class="form-control"/>
+			  		  				</div>
+			  		  			</div>
+			  		  			<div class="form-group">
+			  		  				<label class="control-label col-sm-3">Description</label>
+			  		  				<div class="col-sm-7">
+			  		  					<textarea name="decription" id="description" cols='30' rows="5" class="form-control">
+			  		  						
+			  		  					</textarea>
+			  		  				</div>
+			  		  			</div>
+			  		  			<div class="form-group">
+			  		  				<label for="opportunityType" class="col-sm-3 control-label">Type</label>
+			  		  				<div class="col-sm-7">
+			  		  					<input type="text" id="opportunityType" class="form-control"/>
+			  		  				</div>
+			  		  			</div>
+			  		  			<div class="form-group">
+			  		  				<label for="dateOpen" class="col-sm-3 control-label">Open Date</label>
+			  		  				<div class="col-sm-7">
+			  		  					<input type="text" id="dateOpen" class="form-control"/>
+			  		  				</div>
+			  		  			</div>
+			  	  			</div>
+			  	  			<div class="col-md-6">
+			  	  				<div class="form-group">
+			  	  					<label for="targetQty" class="col-sm-3 control-label">Target Quantity</label>
+			  	  					<div class="col-sm-7">
+			  	  						<input type="text" id="targetQty" class="form-control"/>
+			  	  					</div>
+			  	  				</div>
+			  	  				<div class="form-group">
+			  	  					<label for="targetValue" class="col-sm-3 control-label">Target Value</label>
+			  	  					<div class="col-sm-7">
+			  	  						<input type="text" id="targetValue" class="form-control"/>
+			  	  					</div>
+			  	  				</div>
+			  	  				<div class="form-group">
+			  	  					<label for="targetUnit" class="col-sm-3 control-label">Target Unit</label>
+			  	  					<div class="col-sm-7">
+			  	  						<input type="text" id="targetUnit" class="form-control"/>
+			  	  					</div>
+			  	  				</div>
+			  	  				<div class="form-group">
+			  	  					<label for="probability" class="col-sm-3 control-label">Probability</label>
+			  	  					<div class="col-sm-7">
+			  	  						<input type="text" id="probability" class="form-control"/>
+			  	  					</div>
+			  	  				</div>
+			  	  				<div class="form-group">
+			  	  					<label class="control-label col-sm-3">Active</label>
+			  	  					<div class="checkbox col-sm-7">
+			  	  					    <label>
+			  	  					        <input id='active' type="checkbox">
+			  	  					    </label>
+			  	  					</div>
+			  	  				</div>
+			  	  				<br/>
+			  	  				<hr/>
+			  	  				<div class="pull-right">
+			  	  					<button type="button" class="btn btn-default">Cacnel</button>
+			  	  					<button type="button" class="btn btn-sucess" onclick="createOpportunity()">Save</button>
+			  	  				</div>
+			  	  			</div>
+			  	  		</div>
+			  	  	</form>
+			  	  </div>
+			  </div>
+		</div>
+		<div class="panel panel-info">
+			  <div class="panel-heading">
+					<h3 class="panel-title">Opportunities</h3>
+			  </div>
+			  <div class="panel-body">
+			  	<table class="table table-hover">
+			  		<thead>
+			  			<tr>
+			  				<th>ID</th>
+			  				<th>Name</th>
+			  				<th>Type</th>
+			  				<th>Target Qty</th>
+			  				<th>Target Unit</th>
+			  				<th>Target Value</th>
+			  				<th>Open</th>
+			  				<th>Close</th>
+			  				<th>Probability</th>
+			  			</tr>
+			  		</thead>
+			  		<tbody id="opportunitiesTable">
+			  		</tbody>
+			  	</table>
+					
+			  </div>
+		</div>
+	</div>
+</body>
+</html>

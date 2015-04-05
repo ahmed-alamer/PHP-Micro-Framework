@@ -34,7 +34,10 @@ class AccountController
 		} else {
 			return $this->databaseContext->persistArray("account", $parameters);	
 		}
-		
+	}
+
+	public function PUT($parameters) {
+		return $this->databaseContext->updateObject("account", $parameters);		
 	}
 
 	private $databaseContext;

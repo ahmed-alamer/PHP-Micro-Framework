@@ -6,6 +6,8 @@
 	<script src="//code.jquery.com/jquery.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<link href="css/flat-ui.min.css" rel="stylesheet">
+	<script type="text/javascript" src="js/flat-ui.min.js"></script>
+
 	<script type="text/javascript">
 		function getProducts () {
 			$.ajax({
@@ -56,6 +58,12 @@
 				saveProduct();
 				$("#productForm").reset();
 			});
+			$("select").select2({dropdownCssClass: 'dropdown-inverse'});		
+			$(':checkbox').radiocheck();	
+			$("#productsTabs a").click(function(e){
+			    e.preventDefault();
+			    $(this).tab('show');
+			});	
 		});
 	</script>
 </head>
@@ -94,68 +102,77 @@
 	    </div><!-- /.navbar-collapse -->
 	</nav>
 	<div class="container" style="width:99%">
-		<div class="panel panel-success">
-			  <div class="panel-heading">
-					<h3 class="panel-title"><a href="#newProduct" data-toggle='collapse' aria-expanded="false" aria-controls='newProduct'>New Product</a></h3>
-			  </div>
-			  <div class="panel-collapse collapse" id="newProduct">
-			  	  <div class="panel-body">
-			  	  	<form action="" method="POST" class="form-horizontal" id="productForm" role="form">
-			  	  		<div class="row">
-			  	  			<div class="col-md-6">
-			  	  				<div class="form-group">
-			  	  					<label for="productId" class="control-label col-sm-3">ID</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="productId" class="form-control">
-			  	  					</div>
-			  	  				</div>
-			  	  			</div>
-			  	  			<div class="col-md-6">
-			  	  				<div class="form-group">
-			  	  					<label for="productName" class="control-label col-sm-3">Name</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="productName" class="form-control">
-			  	  					</div>
-			  	  				</div>
-			  	  			</div>
-			  	  		</div>
-			  	  		<div class="row">
-			  	  			<div class="col-md-6">
-			  	  				<div class="form-group">
-			  	  					<label for="description" class="control-label col-sm-3">Description</label>
-			  	  					<div class="col-sm-7">
-			  	  						<textarea name="description" id="description" cols="30" rows="10" class="col-sm-7 form-control"></textarea>
-			  	  					</div>
-			  	  				</div>
-			  	  			</div>
-			  	  			<br/>
-			  	  			<hr>
-		  	  				<div class="pull-right" style="margin-right:2%">
-		  	  					<button type="button" class="btn btn-default">Cancel</button>
-		  	  					<button type="button" class="btn btn-success" id="btnSaveProduct">Save</button>
-		  	  				</div>
-			  	  		</div>
-			  	  	</form>
-			  	  </div>			  	
-			  </div>
-		</div>
-		<div class="panel panel-primary">
-			  <div class="panel-heading">
-					<h3 class="panel-title">Products</h3>
-			  </div>
-			  <div class="panel-body">
-			  	<table class="table table-condensed table-hover">
-			  		<thead>
-			  			<tr>
-			  				<th>ID</th>
-			  				<th>Name</th>
-			  				<th>Description</th>
-			  			</tr>
-			  		</thead>
-			  		<tbody id="productsTable">
-			  		</tbody>
-			  	</table>
-			  </div>
+		<ul class="nav nav-tabs container" style="width:98%" id="productsTabs">
+		    <li class="active"><a href="#allProducts">All Products</a></li>
+		    <li><a href="#newProduct">New Product</a></li>
+		</ul>
+		<div class="tab-content container" style="width:98%">
+			<br/>
+		    <div id="allProducts" class="tab-pane fade in active">
+		    	<div class="panel panel-primary">
+		    		  <div class="panel-heading">
+		    				<h3 class="panel-title">Products</h3>
+		    		  </div>
+		    		  <div class="panel-body">
+		    		  	<table class="table table-condensed table-hover">
+		    		  		<thead>
+		    		  			<tr>
+		    		  				<th>ID</th>
+		    		  				<th>Name</th>
+		    		  				<th>Description</th>
+		    		  			</tr>
+		    		  		</thead>
+		    		  		<tbody id="productsTable">
+		    		  		</tbody>
+		    		  	</table>
+		    		  </div>
+		    	</div>
+		    </div>
+		    <div id="newProduct" class="tab-pane fade">
+		    	<div class="panel panel-success">
+		    		  <div class="panel-heading">
+		    				<h3 class="panel-title">New Product</h3>
+		    		  </div>
+    			  	  <div class="panel-body">
+    			  	  	<form action="" method="POST" class="form-horizontal" id="productForm" role="form">
+    			  	  		<div class="row">
+    			  	  			<div class="col-md-6">
+    			  	  				<div class="form-group">
+    			  	  					<label for="productId" class="control-label col-sm-3">ID</label>
+    			  	  					<div class="col-sm-7">
+    			  	  						<input type="text" id="productId" class="form-control">
+    			  	  					</div>
+    			  	  				</div>
+    			  	  			</div>
+    			  	  			<div class="col-md-6">
+    			  	  				<div class="form-group">
+    			  	  					<label for="productName" class="control-label col-sm-3">Name</label>
+    			  	  					<div class="col-sm-7">
+    			  	  						<input type="text" id="productName" class="form-control">
+    			  	  					</div>
+    			  	  				</div>
+    			  	  			</div>
+    			  	  		</div>
+    			  	  		<div class="row">
+    			  	  			<div class="col-md-6">
+    			  	  				<div class="form-group">
+    			  	  					<label for="description" class="control-label col-sm-3">Description</label>
+    			  	  					<div class="col-sm-7">
+    			  	  						<textarea name="description" id="description" cols="30" rows="10" class="col-sm-7 form-control"></textarea>
+    			  	  					</div>
+    			  	  				</div>
+    			  	  			</div>
+    			  	  			<br/>
+    			  	  			<hr>
+    		  	  				<div class="pull-right" style="margin-right:2%">
+    		  	  					<button type="button" class="btn btn-default">Cancel</button>
+    		  	  					<button type="button" class="btn btn-success" id="btnSaveProduct">Save</button>
+    		  	  				</div>
+    			  	  		</div>
+    			  	  	</form>
+    			  	  </div>			  	
+		    	</div>
+		    </div>
 		</div>
 	</div>
 </body>

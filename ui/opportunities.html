@@ -1,19 +1,13 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Clear CRM</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
-    <link href="css/flat-ui.min.css" rel="stylesheet">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-    <script>
+	<title>Opportunities</title>
+	<!-- Latest compiled and minified CSS & JS -->
+	<link rel="stylesheet" media="screen" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="//code.jquery.com/jquery.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link href="css/flat-ui.min.css" rel="stylesheet">
+	<script type="text/javascript" src="js/flat-ui.min.js"></script>
+	<script type="text/javascript">
     	function getOpportunities () {
     		$.ajax({
     			url: "http://localhost/index.php/opportunity",
@@ -65,10 +59,16 @@
     		});
     	}
 
-    	$(document).ready(function() {
+		$(document).ready(function(){ 
     		getOpportunities();
-    	});
-    </script>
+		    $("#opprotunitiesTabs a").click(function(e){
+		        e.preventDefault();
+		        $(this).tab('show');
+		    });
+		    $("select").select2({dropdownCssClass: 'dropdown-inverse'});		
+		    $(':checkbox').radiocheck();		
+		});
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -105,119 +105,111 @@
 	        </ul>
 	    </div><!-- /.navbar-collapse -->
 	</nav>
-	<div class="container" style='width:99%'>
-		<div class="panel panel-success">
-			  <div class="panel-heading">
-					<h3 class="panel-title"><a href="#newOpprotunity" data-toggle='collapse' aria-expanded="false" aria-controls='newOpprotunity'>New Opportunity</a></h3>
-			  </div>
-			  <div class="panel-collapse collapse" id="newOpprotunity">
-			  	  <div class="panel-body">
-			  	  	<form action="" method="POST" class="form-horizontal" role="form">
-			  	  		<div class="row">
-			  	  			<div class="col-md-5">
-			  	  				<div class="form-group">
-			  	  					<label for="id" class="control-label col-sm-3">ID</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="id" class="form-control"/>
-			  	  					</div>
-			  	  				</div>
-			  		  			<div class="form-group">
-			  		  				<label for="name" class="control-label col-sm-3">Name</label>
-			  		  				<div class="col-sm-7">
-			  		  					<input type="text" id="name" class="form-control"/>
-			  		  				</div>
-			  		  			</div>
-			  		  			<div class="form-group">
-			  		  				<label class="control-label col-sm-3">Description</label>
-			  		  				<div class="col-sm-7">
-			  		  					<textarea name="decription" id="description" cols='30' rows="5" class="form-control">
-			  		  						
-			  		  					</textarea>
-			  		  				</div>
-			  		  			</div>
-			  		  			<div class="form-group">
-			  		  				<label for="opportunityType" class="col-sm-3 control-label">Type</label>
-			  		  				<div class="col-sm-7">
-			  		  					<input type="text" id="opportunityType" class="form-control"/>
-			  		  				</div>
-			  		  			</div>
-			  		  			<div class="form-group">
-			  		  				<label for="dateOpen" class="col-sm-3 control-label">Open Date</label>
-			  		  				<div class="col-sm-7">
-			  		  					<input type="text" id="dateOpen" class="form-control"/>
-			  		  				</div>
-			  		  			</div>
-			  	  			</div>
-			  	  			<div class="col-md-6">
-			  	  				<div class="form-group">
-			  	  					<label for="targetQty" class="col-sm-3 control-label">Target Quantity</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="targetQty" class="form-control"/>
-			  	  					</div>
-			  	  				</div>
-			  	  				<div class="form-group">
-			  	  					<label for="targetValue" class="col-sm-3 control-label">Target Value</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="targetValue" class="form-control"/>
-			  	  					</div>
-			  	  				</div>
-			  	  				<div class="form-group">
-			  	  					<label for="targetUnit" class="col-sm-3 control-label">Target Unit</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="targetUnit" class="form-control"/>
-			  	  					</div>
-			  	  				</div>
-			  	  				<div class="form-group">
-			  	  					<label for="probability" class="col-sm-3 control-label">Probability</label>
-			  	  					<div class="col-sm-7">
-			  	  						<input type="text" id="probability" class="form-control"/>
-			  	  					</div>
-			  	  				</div>
-			  	  				<div class="form-group">
-			  	  					<label class="control-label col-sm-3">Active</label>
-			  	  					<div class="checkbox col-sm-7">
-			  	  					    <label>
-			  	  					        <input id='active' type="checkbox">
-			  	  					    </label>
-			  	  					</div>
-			  	  				</div>
-			  	  				<br/>
-			  	  				<hr/>
-			  	  				<div class="pull-right">
-			  	  					<button type="button" class="btn btn-default">Cacnel</button>
-			  	  					<button type="button" class="btn btn-sucess" onclick="createOpportunity()">Save</button>
-			  	  				</div>
-			  	  			</div>
-			  	  		</div>
-			  	  	</form>
-			  	  </div>
-			  </div>
-		</div>
-		<div class="panel panel-info">
-			  <div class="panel-heading">
-					<h3 class="panel-title">Opportunities</h3>
-			  </div>
-			  <div class="panel-body">
-			  	<table class="table table-hover">
-			  		<thead>
-			  			<tr>
-			  				<th>ID</th>
-			  				<th>Name</th>
-			  				<th>Type</th>
-			  				<th>Target Qty</th>
-			  				<th>Target Unit</th>
-			  				<th>Target Value</th>
-			  				<th>Open</th>
-			  				<th>Close</th>
-			  				<th>Probability</th>
-			  			</tr>
-			  		</thead>
-			  		<tbody id="opportunitiesTable">
-			  		</tbody>
-			  	</table>
-					
-			  </div>
-		</div>
-	</div>
+	<ul class="nav nav-tabs container" style="width:98%" id="opprotunitiesTabs">
+	    <li class="active"><a href="#allOpportunities">All Opportunities</a></li>
+	    <li><a href="#newOpportunity">New Opportunity</a></li>
+	</ul>
+	<br/>
+	<div class="tab-content container" style="width:98%">
+	    <div id="allOpportunities" class="tab-pane fade in active">
+	    	<table class="table table-hover">
+	    		<thead>
+	    			<tr>
+	    				<th>ID</th>
+	    				<th>Name</th>
+	    				<th>Type</th>
+	    				<th>Target Qty</th>
+	    				<th>Target Unit</th>
+	    				<th>Target Value</th>
+	    				<th>Open</th>
+	    				<th>Close</th>
+	    				<th>Probability</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody id="opportunitiesTable">
+	    		</tbody>
+	    	</table>
+	    </div>
+	    <div id="newOpportunity" class="tab-pane fade">
+	  	  	<form action="" method="POST" class="form-horizontal" role="form">
+	  	  		<div class="row">
+	  	  			<div class="col-md-5">
+	  	  				<div class="form-group">
+	  	  					<label for="id" class="control-label col-sm-3">ID</label>
+	  	  					<div class="col-sm-7">
+	  	  						<input type="text" id="id" class="form-control"/>
+	  	  					</div>
+	  	  				</div>
+	  		  			<div class="form-group">
+	  		  				<label for="name" class="control-label col-sm-3">Name</label>
+	  		  				<div class="col-sm-7">
+	  		  					<input type="text" id="name" class="form-control"/>
+	  		  				</div>
+	  		  			</div>
+	  		  			<div class="form-group">
+	  		  				<label class="control-label col-sm-3">Description</label>
+	  		  				<div class="col-sm-7">
+	  		  					<textarea name="decription" id="description" cols='30' rows="5" class="form-control">
+	  		  						
+	  		  					</textarea>
+	  		  				</div>
+	  		  			</div>
+	  		  			<div class="form-group">
+	  		  				<label for="opportunityType" class="col-sm-3 control-label">Type</label>
+	  		  				<div class="col-sm-7">
+	  		  					<input type="text" id="opportunityType" class="form-control"/>
+	  		  				</div>
+	  		  			</div>
+	  		  			<div class="form-group">
+	  		  				<label for="dateOpen" class="col-sm-3 control-label">Open Date</label>
+	  		  				<div class="col-sm-7">
+	  		  					<input type="text" id="dateOpen" class="form-control"/>
+	  		  				</div>
+	  		  			</div>
+	  	  			</div>
+	  	  			<div class="col-md-6">
+	  	  				<div class="form-group">
+	  	  					<label for="targetQty" class="col-sm-3 control-label">Target Quantity</label>
+	  	  					<div class="col-sm-7">
+	  	  						<input type="text" id="targetQty" class="form-control"/>
+	  	  					</div>
+	  	  				</div>
+	  	  				<div class="form-group">
+	  	  					<label for="targetValue" class="col-sm-3 control-label">Target Value</label>
+	  	  					<div class="col-sm-7">
+	  	  						<input type="text" id="targetValue" class="form-control"/>
+	  	  					</div>
+	  	  				</div>
+	  	  				<div class="form-group">
+	  	  					<label for="targetUnit" class="col-sm-3 control-label">Target Unit</label>
+	  	  					<div class="col-sm-7">
+	  	  						<input type="text" id="targetUnit" class="form-control"/>
+	  	  					</div>
+	  	  				</div>
+	  	  				<div class="form-group">
+	  	  					<label for="probability" class="col-sm-3 control-label">Probability</label>
+	  	  					<div class="col-sm-7">
+	  	  						<input type="text" id="probability" class="form-control"/>
+	  	  					</div>
+	  	  				</div>
+	  	  				<div class="form-group">
+	  	  					<label class="control-label col-sm-3">Active</label>
+	  	  					<div class="checkbox col-sm-7">
+	  	  					    <label>
+	  	  					        <input id='active' type="checkbox">
+	  	  					    </label>
+	  	  					</div>
+	  	  				</div>
+	  	  				<br/>
+	  	  				<hr/>
+	  	  				<div class="pull-right">
+	  	  					<button type="button" class="btn btn-default">Cacnel</button>
+	  	  					<button type="button" class="btn btn-success" onclick="createOpportunity()">Save</button>
+	  	  				</div>
+	  	  			</div>
+	  	  		</div>
+	  	  	</form>	    	
+	    </div>
+	</div>		
 </body>
 </html>

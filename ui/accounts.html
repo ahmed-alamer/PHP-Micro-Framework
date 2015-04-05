@@ -12,6 +12,7 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/flat-ui.min.js"></script>
     
     <script>
     function addToTable (jsonObject) {
@@ -40,71 +41,6 @@
             },
             error: function() {
                 console.log("You Fucked Up!");
-            }
-        });
-    }
-
-    function submitForm () {
-        $.ajax({
-
-            // The URL for the request
-            url: "http://localhost/index.php/account",
-
-            // The data to send (will be converted to a query string)
-            data: {
-                "ID": $("#accountId").val(),
-                "CompanyName" : $("#companyName").val(),
-                "IntroducedBy" : $("#introducedBy").val(),
-                "Description" : $("#description").val(),
-                "Active" : $("#active").val(),
-                "Industry" : $("#industry").val(),
-                "AnnualRevenue": $("#annualRevenue").val(),
-                "PhoneFax" : $("#phoneFax").val(),
-                "BillingAddressStreet" : $("#billingAddressStreet").val(),
-                "BillingAddressCity" : $("#billingAddressCity").val(),
-                "BillingAddressState" : $("#billingAddressState").val(),
-                "BillingAddressZipcode" : $("#billingAddressZipcode").val(),
-                "BillingAddressCountry" : $("#billingAddressCountry").val(),
-                "Rating" : $("#rating").val(),
-                "MainPhone" : $("#mainPhone").val(),
-                "AlternativePhone" : $("#alternativePhone").val(),
-                "Website" : $("#webiste").val(),
-                "Ownership" : $("#ownership").val(),
-                "Employees" : $("employees").val(),
-                "TickerSymbol" : $("#tickerSymbol").val(),
-                "ShippingAddressStreet" : $("#shippingAddressStreet").val(),
-                "ShippingAddressCity": $("#shippingAddressCity").val(),
-                "ShippingAddressState": $("#shippingAddressState").val(),
-                "ShippingAddressZipcode": $("#shippingAddressZipcode").val(),
-                "ShippingAddressCountry": $("#shippingAddressCountry").val()
-            },
-
-            // Whether this is a POST or GET request
-            type: "POST",
-
-            async: true,
-
-            // The type of data we expect back
-            // dataType : "json",
-
-            // Code to run if the request succeeds;
-            // the response is passed to the function
-            success: function( json ) {
-                console.log(json);
-            },
-
-            // Code to run if the request fails; the raw request and
-            // status codes are passed to the function
-            error: function( xhr, status, errorThrown ) {
-                alert( "Sorry, there was a problem!" );
-                console.log( "Error: " + errorThrown );
-                console.log( "Status: " + status );
-                console.dir( xhr );
-            },
-
-            // Code to run regardless of success or failure
-            complete: function( xhr, status ) {
-                alert( "The request is complete!");
             }
         });
     }
@@ -140,9 +76,74 @@
         });
     }
 
+    function submitForm () {
+        $.ajax({
+
+            // The URL for the request
+            url: "http://localhost/index.php/account",
+
+            // The data to send (will be converted to a query string)
+            data: {
+                "id": $("#accountId").val(),
+                "companyName" : $("#companyName").val(),
+                "introducedBy" : $("#introducedBy").val(),
+                "description" : $("#description").val(),
+                "active" : $("#active").val(),
+                "industry" : $("#industry").val(),
+                "annualRevenue": $("#annualRevenue").val(),
+                "phoneFax" : $("#phoneFax").val(),
+                "billingAddressStreet" : $("#billingAddressStreet").val(),
+                "billingAddressCity" : $("#billingAddressCity").val(),
+                "billingAddressState" : $("#billingAddressState").val(),
+                "billingAddressZipcode" : $("#billingAddressZipcode").val(),
+                "billingAddressCountry" : $("#billingAddressCountry").val(),
+                "rating" : $("#rating").val(),
+                "mainPhone" : $("#mainPhone").val(),
+                "alternativePhone" : $("#alternativePhone").val(),
+                "website" : $("#website").val(),
+                "ownership" : $("#ownership").val(),
+                "employees" : $("employees").val(),
+                "tickerSymbol" : $("#tickerSymbol").val(),
+                "shippingAddressStreet" : $("#shippingAddressStreet").val(),
+                "shippingAddressCity": $("#shippingAddressCity").val(),
+                "shippingAddressState": $("#shippingAddressState").val(),
+                "shippingAddressZipcode": $("#shippingAddressZipcode").val(),
+                "shippingAddressCountry": $("#shippingAddressCountry").val()
+            },
+
+            // Whether this is a POST or GET request
+            type: "POST",
+
+            // The type of data we expect back
+            // dataType : "json",
+
+            // Code to run if the request succeeds;
+            // the response is passed to the function
+            success: function( json ) {
+                alert("Saved!");
+                $("#accountForm").reset();
+            },
+
+            // Code to run if the request fails; the raw request and
+            // status codes are passed to the function
+            error: function( xhr, status, errorThrown ) {
+                alert( "Sorry, there was a problem!" );
+                console.log( "Error: " + errorThrown );
+                console.log( "Status: " + status );
+                console.dir( xhr );
+            }
+        });
+    }
+
     $(document).ready(function() {
         getAllAccounts();
         getAllProducts();
+        $("#myTab a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        $("select").select2({dropdownCssClass: 'dropdown-inverse'});        
+        $(':checkbox').radiocheck();        
     });
     </script>
 </head>
@@ -181,237 +182,215 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
-    <div class="container" style="width:99%">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h3 class="panel-title"><a href="#newAccountBody" data-toggle='collapse' aria-expanded="false" aria-controls='newAccountBody'>New Account</a></h3>
-            </div>
-            <div class='panel-collapse collapse' id='newAccountBody'>
+    <ul class="nav nav-tabs container" style="width:98%" id="myTab">
+        <li class="active"><a href="#allAccounts">All Accounts</a></li>
+        <li><a href="#newAccount">New Account</a></li>
+    </ul>
+    <div class="tab-content container" style="width:98%">
+        <br/>
+        <div id="allAccounts" class="tab-pane fade in active">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Accounts</h3>
+                </div>
                 <div class="panel-body">
-                    <form action="" class="form-horizontal">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="accountId" class="col-sm-3 control-label">Account ID</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" id="accountId" class="form-control"/>    
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="companyName" class="col-sm-3 control-label">Company Name</label>
-                                    <div class="col-sm-7">
-                                        <input id='companyName' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="description" class="col-sm-3 control-label">Description</label>
-                                    <div class="col-sm-7">
-                                        <input id='description' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="annualRevenue" class="col-sm-3 control-label">Annual Revenue</label>
-                                    <div class="col-sm-7">
-                                        <input id='annualRevenue' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="alternativePhone" class="col-sm-3 control-label">Alternative Phone</label>
-                                    <div class="col-sm-7">
-                                        <input id='alternativePhone' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="active" class="control-label col-sm-3">Active</label>
-                                    <div class="checkbox col-sm-7">
-                                        <label>
-                                            <input id='active' type="checkbox">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="webiste" class="col-sm-3 control-label">Website</label>
-                                    <div class="col-sm-7">
-                                        <input id='webiste' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="industry" class="col-sm-3 control-label">Industry</label>
-                                    <div class="col-sm-7">
-                                        <input id='industry' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="introducedBy" class="col-sm-3 control-label">Intorduced By</label>
-                                    <div class="col-sm-7">
-                                        <input id='introducedBy' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="mainPhone" class="col-sm-3 control-label">Main Phone</label>
-                                    <div class="col-sm-7">
-                                        <input id='mainPhone' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phoneFax" class="col-sm-3 control-label">Phone Fax</label>
-                                    <div class="col-sm-7">
-                                        <input id='phoneFax' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="rating" class="col-sm-3 control-label">Rating</label>
-                                    <div class="col-sm-7">
-                                        <input id='rating' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="employees" class="col-sm-3 control-label">Employees</label>
-                                    <div class="col-sm-7">
-                                        <input id='employees' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tickerSymbol" class="col-sm-3 control-label">Ticker Symbol</label>
-                                    <div class="col-sm-7">
-                                        <input id='tickerSymbol' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="billingAddressStreet" class="col-sm-3 control-label">Billing Address Street</label>
-                                    <div class="col-sm-7">
-                                        <input id='billingAddressStreet' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="billingAddressCity" class="col-sm-3 control-label">Billing Address City</label>
-                                    <div class="col-sm-7">
-                                        <input id='billingAddressCity' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="billingAddressState" class="col-sm-3 control-label">Billing Address State</label>
-                                    <div class="col-sm-7">
-                                        <input id='billingAddressState' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="billingAddressZipcode" class="col-sm-3 control-label">Billing Address Zip Code</label>
-                                    <div class="col-sm-7">
-                                        <input id='billingAddressZipcode' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="billingAddressCountry" class="col-sm-3 control-label">Billing Address Country</label>
-                                    <div class="col-sm-7">
-                                        <input id='billingAddressCountry' type="text" class="form-control" />
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
-                                    <div class="col-sm-7">
-                                        <input id='shippingAddressStreet' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
-                                    <div class="col-sm-7">
-                                        <input id='shippingAddressCity' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
-                                    <div class="col-sm-7">
-                                        <input id='shippingAddressState' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
-                                    <div class="col-sm-7">
-                                        <input id='shippingAddressZipcode' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
-                                    <div class="col-sm-7">
-                                        <input id='shippingAddressCountry' type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="pull-right" style='margin-right:2%'>
-                                <button type="button" class="btn btn-default">Cancel</button>
-                                <button type="button" class="btn btn-info" style='margin-left:15px' onclick="submitForm()">Save</button>
-                            </div>
-                        </div>
-                    </form>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Company Name</th>
+                                <th>Introduced By</th>
+                                <th>Industry</th>
+                                <th>Active</th>
+                                <th>Rating</th>
+                                <th>Main Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody id='accountsTable'>
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
         </div>
-    </div>
-    <div class="container" style="width:99%">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">Accounts</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Company Name</th>
-                            <th>Introduced By</th>
-                            <th>Industry</th>
-                            <th>Active</th>
-                            <th>Rating</th>
-                            <th>Main Phone</th>
-                        </tr>
-                    </thead>
-                    <tbody id='accountsTable'>
-                    </tbody>
-                </table>
-            </div>
+        <div id="newAccount" class="tab-pane fade">
+            <div class="panel panel-info">
+                  <div class="panel-heading">
+                        <h3 class="panel-title">New Account</h3>
+                  </div>
+                  <div class="panel-body">
+                        <form action="" class="form-horizontal" id="accountForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="accountId" class="col-sm-3 control-label">Account ID</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" id="accountId" class="form-control"/>    
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="companyName" class="col-sm-3 control-label">Company Name</label>
+                                        <div class="col-sm-7">
+                                            <input id='companyName' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description" class="col-sm-3 control-label">Description</label>
+                                        <div class="col-sm-7">
+                                            <input id='description' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="annualRevenue" class="col-sm-3 control-label">Annual Revenue</label>
+                                        <div class="col-sm-7">
+                                            <input id='annualRevenue' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="alternativePhone" class="col-sm-3 control-label">Alternative Phone</label>
+                                        <div class="col-sm-7">
+                                            <input id='alternativePhone' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="active" class="control-label col-sm-3">Active</label>
+                                        <div class="checkbox col-sm-7">
+                                            <label>
+                                                <input id='active' type="checkbox">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="webiste" class="col-sm-3 control-label">Website</label>
+                                        <div class="col-sm-7">
+                                            <input id='website' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="industry" class="col-sm-3 control-label">Industry</label>
+                                        <div class="col-sm-7">
+                                            <input id='industry' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="introducedBy" class="col-sm-3 control-label">Intorduced By</label>
+                                        <div class="col-sm-7">
+                                            <input id='introducedBy' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mainPhone" class="col-sm-3 control-label">Main Phone</label>
+                                        <div class="col-sm-7">
+                                            <input id='mainPhone' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phoneFax" class="col-sm-3 control-label">Phone Fax</label>
+                                        <div class="col-sm-7">
+                                            <input id='phoneFax' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rating" class="col-sm-3 control-label">Rating</label>
+                                        <div class="col-sm-7">
+                                            <input id='rating' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="employees" class="col-sm-3 control-label">Employees</label>
+                                        <div class="col-sm-7">
+                                            <input id='employees' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tickerSymbol" class="col-sm-3 control-label">Ticker Symbol</label>
+                                        <div class="col-sm-7">
+                                            <input id='tickerSymbol' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="billingAddressStreet" class="col-sm-3 control-label">Billing Address Street</label>
+                                        <div class="col-sm-7">
+                                            <input id='billingAddressStreet' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="billingAddressCity" class="col-sm-3 control-label">Billing Address City</label>
+                                        <div class="col-sm-7">
+                                            <input id='billingAddressCity' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="billingAddressState" class="col-sm-3 control-label">Billing Address State</label>
+                                        <div class="col-sm-7">
+                                            <input id='billingAddressState' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="billingAddressZipcode" class="col-sm-3 control-label">Billing Address Zip Code</label>
+                                        <div class="col-sm-7">
+                                            <input id='billingAddressZipcode' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="billingAddressCountry" class="col-sm-3 control-label">Billing Address Country</label>
+                                        <div class="col-sm-7">
+                                            <input id='billingAddressCountry' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
+                                        <div class="col-sm-7">
+                                            <input id='shippingAddressStreet' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
+                                        <div class="col-sm-7">
+                                            <input id='shippingAddressCity' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
+                                        <div class="col-sm-7">
+                                            <input id='shippingAddressState' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
+                                        <div class="col-sm-7">
+                                            <input id='shippingAddressZipcode' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
+                                        <div class="col-sm-7">
+                                            <input id='shippingAddressCountry' type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="pull-right" style='margin-right:2%'>
+                                    <!-- <button type="button" class="btn btn-default">Cancel</button> -->
+                                    <button type="button" class="btn btn-info" style='margin-left:15px' onclick="submitForm()">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                  </div>
+            </div>        
         </div>
     </div>
-    <div class="modal fade" id="connectProduct">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST" class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="productName" class="control-label col-sm-3">Product</label>
-                            <div class="col-sm-7">
-                                <select name="productName" id="productName" class="form-control">
-                                    
-                                </select>                                
-                            </div>
-                        </div>              
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
     <hr />
     <div class="container" style='text-align:center'>
         No Copyrights. Cool, isn't it?

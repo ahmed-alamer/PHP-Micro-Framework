@@ -7,6 +7,7 @@ class DatabaseContext
 		$this->database = new PDO(
 			'mysql:host=127.0.0.1;dbname=clear_crm;charset=utf8mb4', 'root', 'kokojumbo'
 		);
+		// $this->database->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
 		$this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->database->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	}
@@ -51,6 +52,28 @@ class DatabaseContext
 		$query = $this->database->prepare($sql);
 		$query->execute($array);
 		return $this->database->lastInsertId();
+	}
+
+	public function updateObject($tableName, $object) {
+		$this->updateArray($tableName, $object);
+	}
+
+	public function updateArray($tableName, $array) {
+		$sql = "UPDATE ". $tableName . " SET ";
+		$values = "";
+		$id = $array["id"];
+		unset($array["id"]);
+		foreach ($array as $row => $value) {
+			$values .= $row ." = :". $row .",";
+			$array[":" . $row] = $value;
+			unset($array[$row]);
+		}
+		$values = rtrim($values, ",");
+		$array["id"] = $id;
+		$sql .= $values . " where id = :id";
+			$query = $this->database->prepare($sql);
+		$query->execute($array);
+		return $this->database->lastInsertId();		
 	}
 
 	private $database;

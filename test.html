@@ -4,21 +4,23 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script>
 		$.ajax({
-			url : "http://localhost/index.php/rest",
-			type: "POST",
+			url : "http://localhost/index.php/account",
+			type: "PUT",
 			dataType: "json",
 			data: {
 				"data":"json",
 				"param":"value"
 			},
 			success: function(result) {
+				console.log(result);
 				console.log(result.data + "\n" + result.param);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				console.log("You Fucked Up!");
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
+				console.log(jqXHR.responseText);
+				// console.log("You Fucked Up!");
+				// console.log(jqXHR);
+				// console.log(textStatus);
+				// console.log(errorThrown);
 			}
 		});
 	</script>

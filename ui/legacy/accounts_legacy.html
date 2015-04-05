@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear CRM</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    <script>
+    function addToTable (jsonObject) {
+        $("#accountsTable").append(
+            "<tr >" +
+                "<td><a href='account_details.html?id="+jsonObject.id+"'>" + jsonObject.id + "</a></td>" +
+                "<td>" + jsonObject.companyName + "</td>" +
+                "<td>" + jsonObject.introducedBy + "</td>" +
+                "<td>" + jsonObject.industry + "</td>" +
+                "<td>" + jsonObject.active + "</td>" +
+                "<td>" + jsonObject.rating + "</td>" +
+                "<td>" + jsonObject.mainPhone + "</td>" +
+            "</tr>"
+        );
+    }
+
+    function getAllAccounts () {
+        $.ajax({
+            url : "http://localhost/index.php/account",
+            type: 'GET',
+            async: true,
+            success: function (accountsList) {
+                accountsList.forEach(function (account) {
+                    addToTable(account);
+                });
+            },
+            error: function() {
+                console.log("You Fucked Up!");
+            }
+        });
+    }
+
+    function getAllProducts () {
+        $.ajax({
+            url: "http://localhost/index.php/product",
+            type: "GET",
+            success: function(products) {
+                products.forEach(function(product) {
+                    $("#productName").append("<option value='"+product.id+"'>"+product.name+"</option>");
+                });
+            },
+            error: function(xhr, error, message) {}
+        });
+    }
+
+    function getInterestProducts (accountId) {
+        $.ajax({
+            url: "http://localhost/index.php/product/?accountId="+accountId,
+            type: "GET",
+            success: function(products) {
+                products.forEach(function(product) {
+                    $("productsTable").append(
+                        "<tr>" +
+                        "<td>" + product.id + "</td>" +
+                        "<td>" + product.name + "</td>" +
+                        "</tr>" 
+                    );
+                });
+            },
+            error: function() {}
+        });
+    }
+
+    $(document).ready(function() {
+        getAllAccounts();
+        getAllProducts();
+    });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Clear CRM</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="accounts.html">Accounts</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="opportunities.html">Opportunities</a></li>
+                <li><a href="products.html">Products</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+    <div class="container" style="width:99%">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Accounts</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Company Name</th>
+                            <th>Introduced By</th>
+                            <th>Industry</th>
+                            <th>Active</th>
+                            <th>Rating</th>
+                            <th>Main Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody id='accountsTable'>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="connectProduct">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="productName" class="control-label col-sm-3">Product</label>
+                            <div class="col-sm-7">
+                                <select name="productName" id="productName" class="form-control">
+                                    
+                                </select>                                
+                            </div>
+                        </div>              
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <hr />
+    <div class="container" style='text-align:center'>
+        No Copyrights. Cool, isn't it?
+    </div>
+</body>
+</html>

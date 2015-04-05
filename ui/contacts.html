@@ -13,6 +13,7 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/flat-ui.min.js"></script>
 	<title>Contacts</title>
 	<script>
 		var accountId = null;
@@ -64,49 +65,6 @@
 				}			
 			});
 		}
-		function viewContact (contactId) {
-			$.ajax({ 
-				url: "http://localhost/index.php/contact/?id=" + contactId,
-				method: "GET",
-				success : function(contact) {
-					$("#txtID").text(contact.id);
-					$("#txtAccount").text($("#account option:selected").text());
-					$("#txtSaluation").text(contact.saluation);
-					$("#txtFirstName").text(contact.firstName);
-					$("#txtLastName").text(contact.lastName);
-					$("#txtTitle").text(contact.title);
-					$("#txtDepartment").text(contact.department);
-					$("#txtDoNotCall").text(contact.doNotCall);
-					$("#txtReferredBy").text(contact.referredBy);
-					$("#txtLeadSource").text(contact.leadSource);
-					$("#txtLeadSourceDescription").text(contact.leadSourceDescription);
-					$("#txtDescription").text(contact.description);
-					$("#txtActive").text(contact.active);
-					$("#txtLead").text(contact.lead);
-					$("#txtMobile").text(contact.mobile);
-					$("#txtPhoneWork").text(contact.phoneWork);
-					$("#txtFax").text(contact.fax);
-					$("#txtAssistant").text(contact.assistant);
-					$("#txtEmailAddress").text(contact.emailAddress);
-					$("#txtPrimaryAddressStreet").text(contact.primaryAddressStreet);
-					$("#txtPrimaryAddressCity").text(contact.primaryAddressCity);
-					$("#txtPrimaryAddressState").text(contact.primaryAddressState);
-					$("#txtPrimaryAddressZipcode").text(contact.primaryAddressZipcode);
-					$("#txtPrimaryAddressCountry").text(contact.primaryAddressCountry);
-					$("#txtShippingAddressStreet").text(contact.shippingAddressStreet);
-					$("#txtShippingAddressCity").text(contact.shippingAddressCity);
-					$("#txtShippingAddressZipcode").text(contact.shippingAddressZipcode);
-					$("#txtShippingAddressState").text(contact.shippingAddressState);
-					$("#txtShippingAddressCountry").text(contact.shippingAddressCountry);
-				},
-				error: function() {
-					console.log("You Fucked Up!");
-				},
-				complete: function() {
-					$("#contactDetails").modal('show');
-				}
-			});
-		}
 
 		function getAccounts () {
 			$.ajax({
@@ -134,8 +92,8 @@
 				success: function(contacts) {
 					contacts.forEach(function(contact) {
 						$("#contactsTable").append(
-							"<tr onclick='viewContact("+contact.id+")'>" +
-								"<td>" + contact.id + "</td>" +
+							"<tr>" +
+								"<td><a href='contact_details.html?id=" + contact.id + "&account="+ accountId +"'>"+ contact.id + "</a></td>" +
 								"<td>" + contact.firstName + " " + contact.lastName + "</td>" +
 								"<td>" + contact.title + "</td>" +
 								"<td>" + (contact.doNotCall == true ? "Yes" : "No") + "</td>" +
@@ -158,6 +116,12 @@
 				accountId = $(this).val();
 				getContacts();
 			});
+			$("#contactsTabs a").click(function(e){
+			    e.preventDefault();
+			    $(this).tab('show');
+			});
+			$("select").select2({dropdownCssClass: 'dropdown-inverse'});		
+			$(':checkbox').radiocheck();		
 		});
 	</script>
 </head>
@@ -200,11 +164,11 @@
 	  	<div class="panel panel-info">
 	  		<div class="panel-body">
 	  		   	<form action="" method="POST" class="form-horizontal" role="form">
-  		      			<legend>Account</legend>
+  		      			<legend>Parent Account</legend>
 	  		      		<div class="form-group">
 	  		      			<label for="account" class="col-sm-3 control-label">Account</label>
 	  		      			<div class="col-sm-8">
-	  		      				<select name="account" id="account" class="form-control">
+	  		      				<select name="account" id="account" class="form-control select select-primary select-block mbl">
 	  		      					<option value="empty">Select an Account...</option>
 	  		      				</select>
 	  		      			</div>
@@ -212,12 +176,45 @@
 	  		      </form>
 	  		</div>
 	  	</div>
-		<div class="panel panel-success">
-			  <div class="panel-heading">
+	</div>	
+	<ul class="nav nav-tabs container" style="width:98%" id="contactsTabs">
+	    <li class="active"><a href="#allContacts">All Contacts</a></li>
+	    <li><a href="#newContact">New Contact</a></li>
+	</ul>	
+	<div class="tab-content container" style="width:98%">
+	    <div id="allContacts" class="tab-pane fade in active">
+	    	<br/>
+	    	<div class="panel panel-info">
+	    		  <div class="panel-heading">
+	    				<h3 class="panel-title">Contacts</h3>
+	    		  </div>
+	    		  <div class="panel-body">
+	    				<table class="table table-condensed table-hover">
+	    					<thead>
+	    						<tr>
+	    							<th>ID</th>
+	    							<th>Name</th>
+	    							<th>Title</th>
+	    							<th>Don't Call</th>
+	    							<th>Active</th>
+	    							<th>Phone</th>
+	    							<th>Mobile</th>
+	    							<th>Email</th>
+	    						</tr>
+	    					</thead>
+	    					<tbody id="contactsTable">
+	    					</tbody>
+	    				</table>
+	    		  </div>
+	    	</div>
+	    </div>
+	    <div id="newContact" class="tab-pane fade">
+	    	<br/>
+	    	<div class="panel panel-success">
+				<div class="panel-heading">
 					<h3 class="panel-title"><a href="#newContactBody" data-toggle='collapse' aria-expanded='false' aria-controls='newAccountBody'>New Contact</a></h3>
-			  </div>
-			  <div class='panel-collapse collapse' id='newContactBody'>
-			  	<div class="panel-body">
+				</div>
+				<div class="panel-body">
 			  		<form action="" class="form-horizontal">
 			  			<div class="row">
 			  				<div class="col-md-6">
@@ -393,205 +390,13 @@
 				  		<br />
 				  		<div class="row">
 				  		    <div class="pull-right" style='margin-right:2%'>
-				  		        <button type="button" class="btn btn-default">Cancel</button>
 				  		        <button type="button" class="btn btn-info" style='margin-left:15px' onclick="createContact()">Save</button>
 				  		    </div>
 				  		</div>
 			  		</form>
-			  	</div>		  	
-			  </div>
-		</div>
-		<br/>
-		<div class="panel panel-info">
-			  <div class="panel-heading">
-					<h3 class="panel-title">Contacts</h3>
-			  </div>
-			  <div class="panel-body">
-					<table class="table table-condensed table-hover">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Name</th>
-								<th>Title</th>
-								<th>Don't Call</th>
-								<th>Active</th>
-								<th>Phone</th>
-								<th>Mobile</th>
-								<th>Email</th>
-							</tr>
-						</thead>
-						<tbody id="contactsTable">
-						</tbody>
-					</table>
-			  </div>
-		</div>
+		  		</div>		  	
+	    	</div>
+	    </div>
 	</div>
-	<div class="modal fade" id="contactDetails">
-		<div class="modal-dialog" style="width:80%">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Contact Details</h4>
-				</div>
-				<div class="modal-body">
-			  		<form action="" class="form-horizontal">
-			  			<div class="row">
-			  				<div class="container">
-			  					<div class="form-group">
-			  						<label class="col-sm-3 control-label">Account</label>
-			  						<div id="txtAccount" class="col-sm-7 form-control-static"></div>
-			  					</div>
-			  				</div>
-			  			</div>
-			  			<br/>
-			  			<div class="row">
-			  				<div class="col-md-6">
-			  					<div class="form-group">
-			  						<label for="ID" class='col-sm-3 control-label'>ID</label>
-		  							<div id="txtID" class="col-sm-7 form-control-static"></div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="sualuation" class="col-sm-3 control-label">Saluation</label>
-		  							<div id="txtSaluation" class="form-control-static col-sm-7"></div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="firstName" class="col-sm-3 control-label">First Name</label>
-			  						<div class="col-sm-7 form-control-static" id="txtFirstName">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="lastName" class="col-sm-3 control-label">Last Name</label>
-			  						<div class="col-sm-7 form-control-static" id="txtLastName">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="title" class="col-sm-3 control-label">Title</label>
-			  						<div class="col-sm-7 form-control-static" id="txtTitle">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="department" class="col-sm-3 control-label">Department</label>
-			  						<div class="col-sm-7 form-control-static" id="txtDepartment">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="referredBy" class="col-sm-3 control-label">Referred  By</label>
-			  						<div class="col-sm-7 form-control-static" id="txtReferredBy">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="doNotCall" class="col-sm-3 control-label">Don't Call</label>
-			  						<div class="col-sm-7 form-control-static" id="txtDoNotCall">
-			  						</div>
-			  					</div>
-			  				</div>
-			  				<div class="col-md-6">
-			  					<div class="form-group">
-			  						<label for="leadSource" class="col-sm-3 control-label">Lead Source</label>
-			  						<div class="col-sm-7 form-control-static" id="txtLeadSource">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="leadSourceDescription" class="col-sm-3 control-label">Source Description</label>
-			  						<div class="col-sm-7 form-control-static" id="txtLeadSourceDescription">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="lead" class="col-sm-3 control-label">Lead</label>
-			  						<div class="col-sm-7 form-control-static" id="txtLead">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="phoneWork" class="col-sm-3 control-label">Work Phone</label>
-			  						<div class="col-sm-7 form-control-static" id="txtPhoneWork">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="fax" class="col-sm-3 control-label">Fax</label>
-			  						<div class="col-sm-7 form-control-static" id="txtFax">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="mobile" class="col-sm-3 control-label">Mobile</label>
-			  						<div class="col-sm-7 form-control-static" id="txtMobile">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label for="assistant" class="col-sm-3 control-label">Assistant</label>
-			  						<div class="col-sm-7 form-control-static" id-"txtAssistant">
-			  						</div>
-			  					</div>
-			  					<div class="form-group">
-			  						<label class="col-sm-3 control-label">Email</label>
-			  						<div class="col-sm-7 form-control-static" id="txtEmailAddress">
-			  						</div>
-			  					</div>
-			  				</div>
-			  			</div>
-				  		<hr />
-				  		<div class="row">
-				  		    <div class="col-md-6">
-				  		        <div class="form-group">
-				  		            <label for="primaryAddressStreet" class="col-sm-3 control-label">Primary Address Street</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtPrimaryAddressStreet">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="primaryAddressCity" class="col-sm-3 control-label">Primary Address City</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtPrimaryAddressCity">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="primaryAddressState" class="col-sm-3 control-label">Primary Address State</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtPrimaryAddressState">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="primaryAddressZipcode" class="col-sm-3 control-label">Primary Address Zip Code</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtPrimaryAddressZipCode">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="primaryAddressCountry" class="col-sm-3 control-label">Primary Address Country</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtPrimaryAddressCountry">
-				  		            </div>
-				  		        </div>
-				  		    </div>
-				  		    <div class="col-md-6">
-				  		        <div class="form-group">
-				  		            <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtShippingAddressStreet">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtShippingAddressCity">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtShippingAddressState">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtShippingAddressZipCode">
-				  		            </div>
-				  		        </div>
-				  		        <div class="form-group">
-				  		            <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
-				  		            <div class="col-sm-7 form-control-static" id="txtShippingAddressCountry">
-				  		            </div>
-				  		        </div>
-				  		    </div>
-				  		</div>
-			  		</form>				
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
 </body>
 </html>

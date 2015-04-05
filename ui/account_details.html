@@ -14,31 +14,57 @@
 	        type: "GET",
 	        async: true,
 	        success : function(account) {
-	            $("#txtID").text(account.id),
-	            $("#txtCompanyName").text(account.companyName),
-	            $("#txtIntroducedBy").text(account.introducedBy),
-	            $("#txtDescription").text(account.description),
-	            $("#txtActive").text(account.active),
-	            $("#txtIndustry").text(account.industry),
-	            $("#txtAnnualRevenue").text(account.annualRevenue),
-	            $("#txtPhoneFax").text(account.phoneFax),
-	            $("#txtBillingAddressStreet").text(account.billingAddressStreet),
-	            $("#txtBillingAddressCity").text(account.billingAddressCity),
-	            $("#txtBillingAddressState").text(account.billingAddressState),
-	            $("#txtBillingAddressZipcode").text(account.billingAddressZipcode),
-	            $("#txtBillingAddressCountry").text(account.billingAddressCountry),
-	            $("#txtRating").text(account.rating),
-	            $("#txtMainPhone").text(account.mainPhone),
-	            $("#txtAlternativePhone").text(account.alternativePhone),
-	            $("#txtWebsite").text(account.website),
-	            $("#txtOwnership").text(account.ownership),
-	            $("#txtEmployees").text(account.employees),
-	            $("#txtTickerSymbol").text(account.tickerSymbol),
-	            $("#txtShippingAddressStreet").text(account.shippingAddressStreet),
-	            $("#txtShippingAddressCity").text(account.shippingAddressCity),
-	            $("#txtShippingAddressState").text(account.shippingAddressState),
-	            $("#txtShippingAddressZipcode").text(account.shippingAddressZipcode),
-	            $("#txtShippingAddressCountry").text(account.shippingAddressCountry)
+	            $("#txtID").text(account.id);
+	            $("#txtCompanyName").text(account.companyName);
+	            $("#txtIntroducedBy").text(account.introducedBy);
+	            $("#txtDescription").text(account.description);
+	            $("#txtActive").text(account.active);
+	            $("#txtIndustry").text(account.industry);
+	            $("#txtAnnualRevenue").text(account.annualRevenue);
+	            $("#txtPhoneFax").text(account.phoneFax);
+	            $("#txtBillingAddressStreet").text(account.billingAddressStreet);
+	            $("#txtBillingAddressCity").text(account.billingAddressCity);
+	            $("#txtBillingAddressState").text(account.billingAddressState);
+	            $("#txtBillingAddressZipcode").text(account.billingAddressZipcode);
+	            $("#txtBillingAddressCountry").text(account.billingAddressCountry);
+	            $("#txtRating").text(account.rating);
+	            $("#txtMainPhone").text(account.mainPhone);
+	            $("#txtAlternativePhone").text(account.alternativePhone);
+	            $("#txtWebsite").text(account.website);
+	            $("#txtOwnership").text(account.ownership);
+	            $("#txtEmployees").text(account.employees);
+	            $("#txtTickerSymbol").text(account.tickerSymbol);
+	            $("#txtShippingAddressStreet").text(account.shippingAddressStreet);
+	            $("#txtShippingAddressCity").text(account.shippingAddressCity);
+	            $("#txtShippingAddressState").text(account.shippingAddressState);
+	            $("#txtShippingAddressZipcode").text(account.shippingAddressZipcode);
+	            $("#txtShippingAddressCountry").text(account.shippingAddressCountry);
+	            //preparing the form
+	            $("#accountId").val(account.id);
+	            $("#companyName").val(account.companyName);
+	            $("#introducedBy").val(account.introducedBy);
+	            $("#description").val(account.description);
+	            $("#active").val(account.active);
+	            $("#industry").val(account.industry);
+	            $("#annualRevenue").val(account.annualRevenue);
+	            $("#phoneFax").val(account.phoneFax);
+	            $("#billingAddressStreet").val(account.billingAddressStreet);
+	            $("#billingAddressCity").val(account.billingAddressCity);
+	            $("#billingAddressState").val(account.billingAddressState);
+	            $("#billingAddressZipcode").val(account.billingAddressZipcode);
+	            $("#billingAddressCountry").val(account.billingAddressCountry);
+	            $("#rating").val(account.rating);
+	            $("#mainPhone").val(account.mainPhone);
+	            $("#alternativePhone").val(account.alternativePhone);
+	            $("#website").val(account.website);
+	            $("#ownership").val(account.ownership);
+	            $("#employees").val(account.employees);
+	            $("#tickerSymbol").val(account.tickerSymbol);
+	            $("#shippingAddressStreet").val(account.shippingAddressStreet);
+	            $("#shippingAddressCity").val(account.shippingAddressCity);
+	            $("#shippingAddressState").val(account.shippingAddressState);
+	            $("#shippingAddressZipcode").val(account.shippingAddressZipcode);
+	            $("#shippingAddressCountry").val(account.shippingAddressCountry);
 	        },
 	        error: function(xhr) {
 	            console.log(xhr);
@@ -131,6 +157,46 @@
 		});
 	}
 
+	function submitForm () {
+		$.ajax({
+			url: "http://localhost/index.php/account",
+			type: "PUT",
+			data: {
+				"id": $("#accountId").val(),
+				"companyName" : $("#companyName").val(),
+				"introducedBy" : $("#introducedBy").val(),
+				"description" : $("#description").val(),
+				"active" : $("#active").val(),
+				"industry" : $("#industry").val(),
+				"annualRevenue": $("#annualRevenue").val(),
+				"phoneFax" : $("#phoneFax").val(),
+				"billingAddressStreet" : $("#billingAddressStreet").val(),
+				"billingAddressCity" : $("#billingAddressCity").val(),
+				"billingAddressState" : $("#billingAddressState").val(),
+				"billingAddressZipcode" : $("#billingAddressZipcode").val(),
+				"billingAddressCountry" : $("#billingAddressCountry").val(),
+				"rating" : $("#rating").val(),
+				"mainPhone" : $("#mainPhone").val(),
+				"alternativePhone" : $("#alternativePhone").val(),
+				"website" : $("#website").val(),
+				"ownership" : $("#ownership").val(),
+				"employees" : $("employees").val(),
+				"tickerSymbol" : $("#tickerSymbol").val(),
+				"shippingAddressStreet" : $("#shippingAddressStreet").val(),
+				"shippingAddressCity": $("#shippingAddressCity").val(),
+				"shippingAddressState": $("#shippingAddressState").val(),
+				"shippingAddressZipcode": $("#shippingAddressZipcode").val(),
+				"shippingAddressCountry": $("#shippingAddressCountry").val()				
+			},
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(xHr, error, message) {
+				console.log(xHr.responseText);
+			}
+		});
+	}
+
 	$(document).ready(function() {
 		var accountId = getUrlParameter("id") == undefined ? null : getUrlParameter("id");
 		if (accountId) {
@@ -140,6 +206,10 @@
 		getAllProducts();
 		$("#btnAppendProduct").click(function() {
 			appendProduct(accountId, $("#productName").val());
+		});
+		$("#accountTabs a").click(function(e){
+		    e.preventDefault();
+		    $(this).tab('show');
 		});
 	});
 	</script>
@@ -180,169 +250,362 @@
 	    </div><!-- /.navbar-collapse -->
 	</nav>
 	<div class="container" style="width:99%">
-		<div class="panel panel-info">
-			  <div class="panel-heading">
-					<h3 class="panel-title">Account Details</h3>
-			  </div>
-			  <div class="panel-body">
-					<form action="" class="form-horizontal">
-					    <div class="container">
-					        <div class="row">
-					            <div class="col-md-6">
-					                <div class="form-group">
-					                    <label for="txtID" class="col-sm-3 control-label">ID</label>
-					                    <div id= "txtID" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="companyName" class="col-sm-3 control-label">Company Name</label>
-					                    <div id="txtCompanyName" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="description" class="col-sm-3 control-label">Description</label>
-					                    <div id= "txtDescription" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="annualRevenue" class="col-sm-3 control-label">Annual Revenue</label>
-					                    <div id= "txtAnnualRevenue" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="alternativePhone" class="col-sm-3 control-label">Alternative Phone</label>
-					                    <div id= "txtAlternativePhone" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="active" class="control-label col-sm-3">Active</label>
-					                    <div id="txtActive" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="webiste" class="col-sm-3 control-label">Website</label>
-					                    <div id= "txtWebsite" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					            </div>
-					            <div class="col-md-6">
-					                <div class="form-group">
-					                    <label for="industry" class="col-sm-3 control-label">Industry</label>
-					                    <div id= "txtIndustry" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="introducedBy" class="col-sm-3 control-label">Intorduced By</label>
-					                    <div id= "txtIntroducedBy" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="mainPhone" class="col-sm-3 control-label">Main Phone</label>
-					                    <div id= "txtMainPhone" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="phoneFax" class="col-sm-3 control-label">Phone Fax</label>
-					                    <div id= "txtPhoneFax" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="rating" class="col-sm-3 control-label">Rating</label>
-					                    <div id= "txtRating" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="employees" class="col-sm-3 control-label">Employees</label>
-					                    <div id= "txtEmployees" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="tickerSymbol" class="col-sm-3 control-label">Ticker Symbol</label>
-					                    <div id= "txtTickerSymbol" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					            </div>
-					        </div>
-					        <hr />
-					        <div class="row">
-					            <div class="col-md-6">
-					                <div class="form-group">
-					                    <label for="billingAddressStreet" class="col-sm-3 control-label">Billing Address Street</label>
-					                    <div id= "txtBillingAddressStreet" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="billingAddressCity" class="col-sm-3 control-label">Billing Address City</label>
-					                    <div id= "txtBillingAddressCity" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="billingAddressState" class="col-sm-3 control-label">Billing Address State</label>
-					                    <div id= "txtBillingAddressState" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="billingAddressZipcode" class="col-sm-3 control-label">Billing Address Zip Code</label>
-					                    <div id= "txtBillingAddressZipcode" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="billingAddressCountry" class="col-sm-3 control-label">Billing Address Country</label>
-					                    <div id= "txtBillingAddressCountry" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
+		<a href="accounts.html" class="btn btn-default">Back</a>
+		<br/>
+		<br/>
+	</div>
+	<ul class="nav nav-tabs container" style="width:98%" id="accountTabs">
+	    <li class="active"><a href="#accountDetails">Account Details</a></li>
+	    <li><a href="#productsOfInterest">Products of Interest</a></li>
+	    <li><a href="#updateAccount">Update Info</a></li>
+	</ul>
+	<br/>
+	<div class="tab-content container" style="width:98%">
+	    <div id="accountDetails" class="tab-pane fade in active">
+	    	<div class="panel panel-info">
+	    		  <div class="panel-heading">
+	    				<h3 class="panel-title">Account Details</h3>
+	    		  </div>
+	    		  <div class="panel-body">
+	    				<form action="" class="form-horizontal">
+	    				    <div class="container">
+	    				        <div class="row">
+	    				            <div class="col-md-6">
+	    				                <div class="form-group">
+	    				                    <label for="txtID" class="col-sm-3 control-label">ID</label>
+	    				                    <div id= "txtID" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="companyName" class="col-sm-3 control-label">Company Name</label>
+	    				                    <div id="txtCompanyName" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="description" class="col-sm-3 control-label">Description</label>
+	    				                    <div id= "txtDescription" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="annualRevenue" class="col-sm-3 control-label">Annual Revenue</label>
+	    				                    <div id= "txtAnnualRevenue" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="alternativePhone" class="col-sm-3 control-label">Alternative Phone</label>
+	    				                    <div id= "txtAlternativePhone" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="active" class="control-label col-sm-3">Active</label>
+	    				                    <div id="txtActive" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="webiste" class="col-sm-3 control-label">Website</label>
+	    				                    <div id= "txtWebsite" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				            </div>
+	    				            <div class="col-md-6">
+	    				                <div class="form-group">
+	    				                    <label for="industry" class="col-sm-3 control-label">Industry</label>
+	    				                    <div id= "txtIndustry" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="introducedBy" class="col-sm-3 control-label">Intorduced By</label>
+	    				                    <div id= "txtIntroducedBy" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="mainPhone" class="col-sm-3 control-label">Main Phone</label>
+	    				                    <div id= "txtMainPhone" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="phoneFax" class="col-sm-3 control-label">Phone Fax</label>
+	    				                    <div id= "txtPhoneFax" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="rating" class="col-sm-3 control-label">Rating</label>
+	    				                    <div id= "txtRating" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="employees" class="col-sm-3 control-label">Employees</label>
+	    				                    <div id= "txtEmployees" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="tickerSymbol" class="col-sm-3 control-label">Ticker Symbol</label>
+	    				                    <div id= "txtTickerSymbol" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				            </div>
+	    				        </div>
+	    				        <hr />
+	    				        <div class="row">
+	    				            <div class="col-md-6">
+	    				                <div class="form-group">
+	    				                    <label for="billingAddressStreet" class="col-sm-3 control-label">Billing Address Street</label>
+	    				                    <div id= "txtBillingAddressStreet" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="billingAddressCity" class="col-sm-3 control-label">Billing Address City</label>
+	    				                    <div id= "txtBillingAddressCity" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="billingAddressState" class="col-sm-3 control-label">Billing Address State</label>
+	    				                    <div id= "txtBillingAddressState" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="billingAddressZipcode" class="col-sm-3 control-label">Billing Address Zip Code</label>
+	    				                    <div id= "txtBillingAddressZipcode" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="billingAddressCountry" class="col-sm-3 control-label">Billing Address Country</label>
+	    				                    <div id= "txtBillingAddressCountry" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
 
-					            </div>
-					            <div class="col-md-6">
-					                <div class="form-group">
-					                    <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
-					                    <div id= "txtShippingAddressStreet" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
-					                    <div id= "txtShippingAddressCity" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
-					                    <div id= "txtShippingAddressState" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
-					                    <div id= "txtShippingAddressZipcode" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					                <div class="form-group">
-					                    <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
-					                    <div id= "txtShippingAddressCountry" class="col-sm-7 form-control-static">
-					                    </div>
-					                </div>
-					            </div>
-					        </div>
-					    </div>
-					</form>
-			  </div>
-		</div>
-		<div class="panel panel-primary">
-		      <div class="panel-heading">
-		            <h3 class="panel-title">Products of Interest</h3>
-		      </div>
-		      <div class="panel-body">
-		        <a class="btn btn-primary pull-right" data-toggle="modal" href='#connectProduct'>Add Product</a>
-		        <table class="table table-striped table-hover">
-		            <thead>
-		                <tr>
-		                    <th>ID</th>
-		                    <th>Name</th>
-		                </tr>
-		            </thead>
-		            <tbody id="productsTable">
-		            </tbody>
-		        </table>
-		      </div>
-		</div>
+	    				            </div>
+	    				            <div class="col-md-6">
+	    				                <div class="form-group">
+	    				                    <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
+	    				                    <div id= "txtShippingAddressStreet" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
+	    				                    <div id= "txtShippingAddressCity" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
+	    				                    <div id= "txtShippingAddressState" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
+	    				                    <div id= "txtShippingAddressZipcode" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				                <div class="form-group">
+	    				                    <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
+	    				                    <div id= "txtShippingAddressCountry" class="col-sm-7 form-control-static">
+	    				                    </div>
+	    				                </div>
+	    				            </div>
+	    				        </div>
+	    				    </div>
+	    				</form>
+	    		  </div>
+	    	</div>
+	    </div>
+	    <div id="productsOfInterest" class="tab-pane fade">
+	    	<div class="panel panel-primary">
+	    	      <div class="panel-heading">
+	    	            <h3 class="panel-title">Products of Interest</h3>
+	    	      </div>
+	    	      <div class="panel-body">
+	    	        <a class="btn btn-primary pull-right" data-toggle="modal" href='#connectProduct'>Add Product</a>
+	    	        <table class="table table-striped table-hover">
+	    	            <thead>
+	    	                <tr>
+	    	                    <th>ID</th>
+	    	                    <th>Name</th>
+	    	                </tr>
+	    	            </thead>
+	    	            <tbody id="productsTable">
+	    	            </tbody>
+	    	        </table>
+	    	      </div>
+	    	</div>  	
+	    </div>
+	    <div id="updateAccount" class="tab-pane fade">
+	    	<div class="panel panel-info">
+	    	      <div class="panel-heading">
+	    	            <h3 class="panel-title">Edit Account</h3>
+	    	      </div>
+	    	      <div class="panel-body">
+	    	            <form action="" class="form-horizontal" id="accountForm">
+	    	                <div class="row">
+	    	                    <div class="col-md-6">
+	    	                        <div class="form-group">
+	    	                            <label for="accountId" class="col-sm-3 control-label">Account ID</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input type="text" id="accountId" class="form-control"/>    
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="companyName" class="col-sm-3 control-label">Company Name</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='companyName' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="description" class="col-sm-3 control-label">Description</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='description' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="annualRevenue" class="col-sm-3 control-label">Annual Revenue</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='annualRevenue' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="alternativePhone" class="col-sm-3 control-label">Alternative Phone</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='alternativePhone' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="active" class="control-label col-sm-3">Active</label>
+	    	                            <div class="checkbox col-sm-7">
+	    	                                <label>
+	    	                                    <input id='active' type="checkbox">
+	    	                                </label>
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="webiste" class="col-sm-3 control-label">Website</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='website' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                    </div>
+	    	                    <div class="col-md-6">
+	    	                        <div class="form-group">
+	    	                            <label for="industry" class="col-sm-3 control-label">Industry</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='industry' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="introducedBy" class="col-sm-3 control-label">Intorduced By</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='introducedBy' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="mainPhone" class="col-sm-3 control-label">Main Phone</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='mainPhone' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="phoneFax" class="col-sm-3 control-label">Phone Fax</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='phoneFax' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="rating" class="col-sm-3 control-label">Rating</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='rating' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="employees" class="col-sm-3 control-label">Employees</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='employees' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="tickerSymbol" class="col-sm-3 control-label">Ticker Symbol</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='tickerSymbol' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                    </div>
+	    	                </div>
+	    	                <hr />
+	    	                <div class="row">
+	    	                    <div class="col-md-6">
+	    	                        <div class="form-group">
+	    	                            <label for="billingAddressStreet" class="col-sm-3 control-label">Billing Address Street</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='billingAddressStreet' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="billingAddressCity" class="col-sm-3 control-label">Billing Address City</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='billingAddressCity' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="billingAddressState" class="col-sm-3 control-label">Billing Address State</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='billingAddressState' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="billingAddressZipcode" class="col-sm-3 control-label">Billing Address Zip Code</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='billingAddressZipcode' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="billingAddressCountry" class="col-sm-3 control-label">Billing Address Country</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='billingAddressCountry' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+
+	    	                    </div>
+	    	                    <div class="col-md-6">
+	    	                        <div class="form-group">
+	    	                            <label for="shippingAddressStreet" class="col-sm-3 control-label">Shipping Address Street</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='shippingAddressStreet' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="shippingAddressCity" class="col-sm-3 control-label">Shipping Address City</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='shippingAddressCity' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="shippingAddressState" class="col-sm-3 control-label">Shipping Address State</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='shippingAddressState' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="shippingAddressZipcode" class="col-sm-3 control-label">Shipping Address Zip Code</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='shippingAddressZipcode' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                        <div class="form-group">
+	    	                            <label for="shippingAddressCountry" class="col-sm-3 control-label">Shipping Address Country</label>
+	    	                            <div class="col-sm-7">
+	    	                                <input id='shippingAddressCountry' type="text" class="form-control" />
+	    	                            </div>
+	    	                        </div>
+	    	                    </div>
+	    	                </div>
+	    	                <br />
+	    	                <div class="row">
+	    	                    <div class="pull-right" style='margin-right:2%'>
+	    	                        <!-- <button type="button" class="btn btn-default">Cancel</button> -->
+	    	                        <button type="button" class="btn btn-info" style='margin-left:15px' onclick="submitForm()">Save</button>
+	    	                    </div>
+	    	                </div>
+	    	            </form>
+	    	      </div>
+	    	</div>        	    	
+	    </div>
 	</div>
 	<div class="modal fade" id="connectProduct">
 	    <div class="modal-dialog">

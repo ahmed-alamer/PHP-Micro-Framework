@@ -16,7 +16,7 @@ function switchContext(content, title) {
 }
 
 /*
-TODO:
+TODO: DONE!
 1. Get accounts and contact to local variable
 2. Add ID field to the form
 3. Add account -> contact selector to the form, try to generate it in JS to reuse it
@@ -185,6 +185,23 @@ function getServiceCases () {
 
 function updateUI(lastContext) {
 	switch(lastContext) {
+		case "#calls":
+			getAllCalls();
+			break;
+		case "#meetings":
+			getMeetings();
+			break;
+		case "#notes":
+			getNotes();
+			break;
+		case "#cases":
+			getServiceCases();
+			break;
+	}
+}
+
+function updateData (context) {
+	switch(context) {
 		case "#calls":
 			getAllCalls();
 			break;

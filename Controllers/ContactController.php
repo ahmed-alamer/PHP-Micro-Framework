@@ -35,5 +35,9 @@ class ContactController {
 		$this->databaseContext->persistArray("account_contacts", $relation);
 	}
 
+	public function PUT($parameters) {
+		return $this->databaseContext->updateObject("account", $parameters);
+	}
+
 	private $databaseContext;
 }
